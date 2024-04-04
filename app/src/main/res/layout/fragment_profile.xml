@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.screen.profile.ProfileFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:elevation="12dp"
+        app:cardCornerRadius="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/user_picture" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btnEditImage"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="-15dp"
+        android:layout_marginEnd="-15dp"
+        android:background="@drawable/circle"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintEnd_toEndOf="@id/cardImage"
+        app:layout_constraintTop_toBottomOf="@id/cardImage" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="25dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardImage" />
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layoutTerms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/profile_button_shape"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivTerms"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/ic_security" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTerms"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:paddingTop="2dp"
+            android:text="@string/terms_and_conditions"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnTerms"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/ic_next" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layoutLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/profile_button_shape_red"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivLogout"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/ic_logout" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLogout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:paddingTop="2dp"
+            android:text="@string/log_out"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnLogout"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/ic_next_white" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

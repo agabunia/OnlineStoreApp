@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="@string/theme">
+        <menu>
+            <item
+                android:id="@+id/language"
+                android:title="@string/language"
+                app:actionLayout="@layout/language_switch_layout" />
+            <item
+                android:id="@+id/themeMode"
+                android:title="@string/dark_mode"
+                app:actionLayout="@layout/theme_switch_layout" />
+        </menu>
+    </item>
+</menu>
