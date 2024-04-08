@@ -11,7 +11,9 @@ fun HomeMainModelDto.toDomain(): GetHomeMainModel {
         getCategoryProductsList = categoryProductsListDto.map { categoryProductDto ->
             GetHomeMainModel.GetCategoryProductModel(
                 getCategory = categoryProductDto.categoryDto,
-                getProductsList = categoryProductDto.productsListDto.toDomain()
+                getProductsList = categoryProductDto.productsListDto.map {
+                    it.toDomain()
+                }
             )
         }
     )

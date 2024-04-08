@@ -1,5 +1,6 @@
 package com.example.final_project.presentation.screen.home
 
+import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.final_project.data.common.Resource
@@ -13,10 +14,8 @@ import com.example.final_project.domain.remote.usecase.home.GetHomeDataUseCase
 import com.example.final_project.domain.remote.usecase.home.GetProductsByCategoryUseCase
 import com.example.final_project.presentation.event.home.HomeEvent
 import com.example.final_project.presentation.mapper.common_product_list.toDomain
-import com.example.final_project.presentation.mapper.common_product_list.toPresenter
 import com.example.final_project.presentation.mapper.home.toPresenter
-import com.example.final_project.presentation.model.common_product_list.Products
-import com.example.final_project.presentation.model.home.CategoryWrapperList
+import com.example.final_project.presentation.model.common_product_list.ProductCommonDetailed
 import com.example.final_project.presentation.state.app_state.AppState
 import com.example.final_project.presentation.state.home.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -70,6 +69,7 @@ class HomeViewModel @Inject constructor(
             getHomeDataUseCase().collect {
                 when (it) {
                     is Resource.Success -> {
+                        d("fetchedData", "${it.data}")
                         _homeState.update { currentState ->
                             currentState.copy(dataList = it.data.toPresenter())
                         }
@@ -77,6 +77,7 @@ class HomeViewModel @Inject constructor(
 
                     is Resource.Error -> {
                         errorMessage(message = it.errorMessage)
+                        d("fetchedData", it.errorMessage)
                     }
 
                     is Resource.Loading -> {
@@ -182,7 +183,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun saveProductInDatabase(product: Products.ProductDetailed) {
+    private fun saveProductInDatabase(product: ProductCommonDetailed) {
         viewModelScope.launch {
             insertProductInLocalUseCase(product = product.toDomain())
         }

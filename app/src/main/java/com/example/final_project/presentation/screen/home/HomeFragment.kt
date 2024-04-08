@@ -17,9 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.final_project.R
 import com.example.final_project.databinding.FragmentHomeBinding
 import com.example.final_project.presentation.activity.MainActivity
-import com.example.final_project.presentation.adapter.home.WrapperRecyclerAdapter
+import com.example.final_project.presentation.adapter.home.HomeMainRecyclerAdapter
 import com.example.final_project.presentation.base.BaseFragment
 import com.example.final_project.presentation.event.home.HomeEvent
+import com.example.final_project.presentation.model.home.HomeMainModel
+import com.example.final_project.presentation.model.home.HomeWrapperModel
 import com.example.final_project.presentation.state.app_state.AppState
 import com.example.final_project.presentation.state.home.HomeState
 import com.google.android.material.navigation.NavigationView
@@ -29,14 +31,15 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
     private val viewModel: HomeViewModel by viewModels()
-    private lateinit var wrapperRecyclerAdapter: WrapperRecyclerAdapter
+    private lateinit var homeMainRecyclerAdapter: HomeMainRecyclerAdapter
     private lateinit var switchTheme: SwitchCompat
     private lateinit var switchLanguage: SwitchCompat
 
     override fun bind() {
         (activity as? MainActivity)?.showBottomNavigationBar()
-        setWrapperAdapter()
+//        setWrapperAdapter()
         setChangeSwitch()
+        fetchData()
     }
 
     override fun bindListeners() {
@@ -75,20 +78,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
     }
 
-    private fun setWrapperAdapter() {
-        wrapperRecyclerAdapter = WrapperRecyclerAdapter()
-        wrapperRecyclerAdapter.onWrapperItemClick = {
+    private fun setWrapperAdapter(model: List<HomeWrapperModel>) {
+        homeMainRecyclerAdapter = HomeMainRecyclerAdapter(model)
+        homeMainRecyclerAdapter.onWrapperItemClick = {
             viewModel.onEvent(HomeEvent.MoveToDetailed(id = it))
         }
-        wrapperRecyclerAdapter.onWrapperSaveProductClick = {
+        homeMainRecyclerAdapter.onWrapperSaveProductClick = {
             viewModel.onEvent(HomeEvent.SaveProduct(it))
         }
         binding.apply {
             rvWrapper.layoutManager = LinearLayoutManager(requireContext())
             rvWrapper.setHasFixedSize(true)
-            rvWrapper.adapter = wrapperRecyclerAdapter
+            rvWrapper.adapter = homeMainRecyclerAdapter
         }
-        viewModel.onEvent(HomeEvent.FetchProducts)
+
     }
 
     private fun handleState(state: HomeState) {
@@ -104,11 +107,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         }
 
-//        state.productsList?.let {
-//            wrapperRecyclerAdapter.submitList(it)
-//        }
         state.dataList?.let {
-            wrapperRecyclerAdapter.submitList(it.categoryWrapperList)
+            val list = listOf(
+                HomeWrapperModel.BannerImage(bannerImage = it.bannerImage),
+                HomeWrapperModel.PromotionImages(promotionImages = it.promotionImages),
+                HomeWrapperModel.CategoryWrapperList(categoryWrapperList = it.categoryWrapperList)
+            )
+
+            setWrapperAdapter(list)
         }
 
         state.errorMessage?.let {
@@ -120,6 +126,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
+    private fun fetchData() {
+        viewModel.onEvent(HomeEvent.FetchProducts)
+    }
 
     private fun setChangeSwitch() {
         val navigationView = activity?.findViewById<NavigationView>(R.id.drawerMenu)

@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.final_project.databinding.CategoryWrapperLayoutBinding
 import com.example.final_project.presentation.adapter.common_product_adapter.ProductRecyclerAdapter
-import com.example.final_project.presentation.model.common_product_list.Products
-import com.example.final_project.presentation.model.home.CategoryWrapperList
+import com.example.final_project.presentation.model.common_product_list.ProductCommonDetailed
 import com.example.final_project.presentation.model.home.HomeMainModel
 
-class WrapperRecyclerAdapter :
-    ListAdapter<HomeMainModel.CategoryProductModel, WrapperRecyclerAdapter.WrapperViewHolder>(CategoryDiffUtil()) {
+class CategoryWrapperRecyclerAdapter :
+    ListAdapter<HomeMainModel.CategoryProductModel, CategoryWrapperRecyclerAdapter.CategoryWrapperViewHolder>(
+        CategoryDiffUtil()
+    ) {
 
     class CategoryDiffUtil : DiffUtil.ItemCallback<HomeMainModel.CategoryProductModel>() {
         override fun areItemsTheSame(
@@ -31,19 +32,19 @@ class WrapperRecyclerAdapter :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WrapperViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryWrapperViewHolder {
         val inflate = LayoutInflater.from(parent.context)
-        return WrapperViewHolder(CategoryWrapperLayoutBinding.inflate(inflate, parent, false))
+        return CategoryWrapperViewHolder(CategoryWrapperLayoutBinding.inflate(inflate, parent, false))
     }
 
-    override fun onBindViewHolder(holder: WrapperViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CategoryWrapperViewHolder, position: Int) {
         holder.bind()
     }
 
     var onWrapperItemClick: ((Int) -> Unit)? = null
-    var onWrapperSaveProductClick: ((Products.ProductDetailed) -> Unit)? = null
+    var onWrapperSaveProductClick: ((ProductCommonDetailed) -> Unit)? = null
 
-    inner class WrapperViewHolder(private val binding: CategoryWrapperLayoutBinding) :
+    inner class CategoryWrapperViewHolder(private val binding: CategoryWrapperLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private lateinit var category: HomeMainModel.CategoryProductModel
         private val productRecyclerAdapter = ProductRecyclerAdapter()
@@ -60,7 +61,7 @@ class WrapperRecyclerAdapter :
 
             binding.apply {
                 tvCategoryTitle.text = category.categoryName
-                productRecyclerAdapter.submitList(category.productList.products)
+                productRecyclerAdapter.submitList(category.productList)
                 setListeners()
             }
         }

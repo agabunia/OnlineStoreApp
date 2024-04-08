@@ -1,6 +1,6 @@
 package com.example.final_project.domain.remote.model.home
 
-import com.example.final_project.domain.remote.model.common_product_list.GetProducts
+import com.example.final_project.domain.remote.model.common_product_list.GetProductCommonDetailed
 
 data class GetHomeMainModel(
     val getBannerImage: String,
@@ -9,6 +9,6 @@ data class GetHomeMainModel(
 ) {
     data class GetCategoryProductModel(
         val getCategory: String,
-        val getProductsList: GetProducts
+        val getProductsList: List<GetProductCommonDetailed>
     )
 }

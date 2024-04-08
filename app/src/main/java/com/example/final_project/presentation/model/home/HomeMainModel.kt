@@ -1,6 +1,6 @@
 package com.example.final_project.presentation.model.home
 
-import com.example.final_project.presentation.model.common_product_list.Products
+import com.example.final_project.presentation.model.common_product_list.ProductCommonDetailed
 
 data class HomeMainModel(
     val bannerImage: String,
@@ -9,6 +9,6 @@ data class HomeMainModel(
 ) {
     data class CategoryProductModel(
         val categoryName: String,
-        val productList: Products
+        val productList: List<ProductCommonDetailed>
     )
 }

@@ -8,22 +8,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.final_project.R
 import com.example.final_project.databinding.ProductLayoutBinding
 import com.example.final_project.presentation.extention.loadImage
+import com.example.final_project.presentation.model.common_product_list.ProductCommonDetailed
 import com.example.final_project.presentation.model.common_product_list.Products
+import com.example.final_project.presentation.model.product.ProductDetailed
 
 class ProductRecyclerAdapter :
-    ListAdapter<Products.ProductDetailed, ProductRecyclerAdapter.ProductViewHolder>(ProductDiffUtil()) {
+    ListAdapter<ProductCommonDetailed, ProductRecyclerAdapter.ProductViewHolder>(ProductDiffUtil()) {
 
-    class ProductDiffUtil : DiffUtil.ItemCallback<Products.ProductDetailed>() {
+    class ProductDiffUtil : DiffUtil.ItemCallback<ProductCommonDetailed>() {
         override fun areItemsTheSame(
-            oldItem: Products.ProductDetailed,
-            newItem: Products.ProductDetailed
+            oldItem: ProductCommonDetailed,
+            newItem: ProductCommonDetailed
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: Products.ProductDetailed,
-            newItem: Products.ProductDetailed
+            oldItem: ProductCommonDetailed,
+            newItem: ProductCommonDetailed
         ): Boolean {
             return oldItem == newItem
         }
@@ -39,11 +41,11 @@ class ProductRecyclerAdapter :
     }
 
     var onItemClick: ((Int) -> Unit)? = null
-    var saveProductClick: ((Products.ProductDetailed) -> Unit)? = null
+    var saveProductClick: ((ProductCommonDetailed) -> Unit)? = null
 
     inner class ProductViewHolder(private val binding: ProductLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private lateinit var product: Products.ProductDetailed
+        private lateinit var product: ProductCommonDetailed
 
         fun bind() {
             product = currentList[adapterPosition]

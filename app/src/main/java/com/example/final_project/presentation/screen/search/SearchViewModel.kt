@@ -9,7 +9,10 @@ import com.example.final_project.domain.remote.usecase.search.GetProductsUseCase
 import com.example.final_project.presentation.event.search.SearchEvent
 import com.example.final_project.presentation.mapper.common_product_list.toDomain
 import com.example.final_project.presentation.mapper.common_product_list.toPresenter
+import com.example.final_project.presentation.mapper.product.toDomain
+import com.example.final_project.presentation.model.common_product_list.ProductCommonDetailed
 import com.example.final_project.presentation.model.common_product_list.Products
+import com.example.final_project.presentation.model.product.ProductDetailed
 import com.example.final_project.presentation.state.search.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -51,7 +54,9 @@ class SearchViewModel @Inject constructor(
                 when (it) {
                     is Resource.Success -> {
                         _searchState.update { currentState ->
-                            currentState.copy(productsList = it.data.toPresenter().products)
+                            currentState.copy(productsList = it.data.products.map { detailedProduct ->
+                                detailedProduct.toPresenter()
+                            })
                         }
                     }
 
@@ -114,7 +119,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun saveProductInDatabase(product: Products.ProductDetailed) {
+    private fun saveProductInDatabase(product: ProductCommonDetailed) {
         viewModelScope.launch {
             insertProductInLocalUseCase(product = product.toDomain())
         }

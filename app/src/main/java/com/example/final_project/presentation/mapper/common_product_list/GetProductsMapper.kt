@@ -4,14 +4,7 @@ import com.example.final_project.domain.remote.model.common_product_list.GetProd
 import com.example.final_project.presentation.model.common_product_list.Products
 
 fun GetProducts.toPresenter(): Products {
-    val products = products.map {
-        Products.ProductDetailed(
-            id = it.id,
-            title = it.title,
-            price = it.price,
-            thumbnail = it.thumbnail,
-            description = it.description
-        )
-    }
-    return Products(products = products)
+    return Products(products = products.map {
+        it.toPresenter()
+    })
 }

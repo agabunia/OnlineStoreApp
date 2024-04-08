@@ -11,7 +11,9 @@ fun GetHomeMainModel.toPresenter(): HomeMainModel {
         categoryWrapperList = getCategoryProductsList.map { categoryProductsList ->
             HomeMainModel.CategoryProductModel(
                 categoryName = categoryProductsList.getCategory,
-                productList = categoryProductsList.getProductsList.toPresenter()
+                productList = categoryProductsList.getProductsList.map {
+                    it.toPresenter()
+                }
             )
         }
     )

@@ -1,6 +1,6 @@
 package com.example.final_project.data.remote.model.home
 
-import com.example.final_project.data.remote.model.common_product_list.ProductsDto
+import com.example.final_project.data.remote.model.common_product_list.ProductCommonDetailedDto
 import com.squareup.moshi.Json
 
 data class HomeMainModelDto(
@@ -15,6 +15,6 @@ data class HomeMainModelDto(
         @Json(name = "category")
         val categoryDto: String,
         @Json(name = "products")
-        val productsListDto: ProductsDto
+        val productsListDto: List<ProductCommonDetailedDto>
     )
 }
