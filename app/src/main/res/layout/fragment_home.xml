@@ -29,7 +29,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/drawerMenu"
+        android:id="@+id/drawerHomeMenu"
         style="@style/drawerScreenBackground"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

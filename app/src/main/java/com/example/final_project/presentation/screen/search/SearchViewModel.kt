@@ -3,9 +3,14 @@ package com.example.final_project.presentation.screen.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.final_project.data.common.Resource
+import com.example.final_project.domain.local.usecase.datastore.language.ChangeLanguageDataStoreUseCase
+import com.example.final_project.domain.local.usecase.datastore.language.GetLanguageDataStoreUseCase
+import com.example.final_project.domain.local.usecase.datastore.theme.ChangeThemeDataStoreUseCase
+import com.example.final_project.domain.local.usecase.datastore.theme.GetThemeDataStoreUseCase
 import com.example.final_project.domain.local.usecase.db_manipulators.InsertProductInLocalUseCase
 import com.example.final_project.domain.remote.usecase.search.GetProductSearchUseCase
 import com.example.final_project.domain.remote.usecase.search.GetProductsUseCase
+import com.example.final_project.presentation.event.home.HomeEvent
 import com.example.final_project.presentation.event.search.SearchEvent
 import com.example.final_project.presentation.mapper.common_product_list.toDomain
 import com.example.final_project.presentation.mapper.common_product_list.toPresenter
@@ -13,6 +18,7 @@ import com.example.final_project.presentation.mapper.product.toDomain
 import com.example.final_project.presentation.model.common_product_list.ProductCommonDetailed
 import com.example.final_project.presentation.model.common_product_list.Products
 import com.example.final_project.presentation.model.product.ProductDetailed
+import com.example.final_project.presentation.state.app_state.AppState
 import com.example.final_project.presentation.state.search.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -29,7 +35,11 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val getProductSearchUseCase: GetProductSearchUseCase,
     private val getProductsUseCase: GetProductsUseCase,
-    private val insertProductInLocalUseCase: InsertProductInLocalUseCase
+    private val insertProductInLocalUseCase: InsertProductInLocalUseCase,
+    private val changeThemeDataStoreUseCase: ChangeThemeDataStoreUseCase,
+    private val getThemeDataStoreUseCase: GetThemeDataStoreUseCase,
+    private val changeLanguageDataStoreUseCase: ChangeLanguageDataStoreUseCase,
+    private val getLanguageDataStoreUseCase: GetLanguageDataStoreUseCase
 ) : ViewModel() {
 
     private val _searchState = MutableStateFlow(SearchState())
@@ -38,6 +48,9 @@ class SearchViewModel @Inject constructor(
     private val _uiEvent = MutableSharedFlow<SearchUIEvent>()
     val uiEvent: SharedFlow<SearchUIEvent> get() = _uiEvent
 
+    private val _appState = MutableStateFlow(AppState())
+    val appState: SharedFlow<AppState> = _appState.asStateFlow()
+
     fun onEvent(event: SearchEvent) {
         when (event) {
             is SearchEvent.FetchAllProducts -> fetchProducts()
@@ -45,7 +58,14 @@ class SearchViewModel @Inject constructor(
             is SearchEvent.MoveToDetailed -> navigateToDetailed(id = event.id)
             is SearchEvent.ResetErrorMessage -> errorMessage(message = null)
             is SearchEvent.SaveProduct -> saveProductInDatabase(product = event.product)
+            is SearchEvent.ChangeTheme -> setLightTheme(isLight = event.isLight)
+            is SearchEvent.ChangeLanguage -> changeLanguage(isGeorgian = event.isGeorgian)
         }
+    }
+
+    init {
+        getTheme()
+        getLanguage()
     }
 
     private fun fetchProducts() {
@@ -111,6 +131,50 @@ class SearchViewModel @Inject constructor(
 
     private fun errorMessage(message: String?) {
         _searchState.update { currentState -> currentState.copy(errorMessage = message) }
+    }
+
+    private fun setLightTheme(isLight: Boolean) {
+        viewModelScope.launch {
+            changeThemeDataStoreUseCase(isLight = isLight)
+        }
+    }
+
+    private fun getTheme() {
+        viewModelScope.launch {
+            getThemeDataStoreUseCase().collect {
+                if (it == "dark") {
+                    _appState.update { themeState ->
+                        themeState.copy(isLight = false)
+                    }
+                } else {
+                    _appState.update { themeState ->
+                        themeState.copy(isLight = true)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun changeLanguage(isGeorgian: Boolean) {
+        viewModelScope.launch {
+            changeLanguageDataStoreUseCase(isGeorgian = isGeorgian)
+        }
+    }
+
+    private fun getLanguage() {
+        viewModelScope.launch {
+            getLanguageDataStoreUseCase().collect {
+                if (it == "ka") {
+                    _appState.update { languageState ->
+                        languageState.copy(isGeorgian = true)
+                    }
+                } else {
+                    _appState.update { languageState ->
+                        languageState.copy(isGeorgian = false)
+                    }
+                }
+            }
+        }
     }
 
     private fun navigateToDetailed(id: Int) {

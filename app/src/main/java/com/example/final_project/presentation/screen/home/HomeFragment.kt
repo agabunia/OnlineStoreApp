@@ -32,22 +32,21 @@ import kotlinx.coroutines.launch
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var homeMainRecyclerAdapter: HomeMainRecyclerAdapter
-    private lateinit var switchTheme: SwitchCompat
-    private lateinit var switchLanguage: SwitchCompat
+    private lateinit var switchHomeTheme: SwitchCompat
+    private lateinit var switchHomeLanguage: SwitchCompat
 
     override fun bind() {
         (activity as? MainActivity)?.showBottomNavigationBar()
-//        setWrapperAdapter()
         setChangeSwitch()
         fetchData()
     }
 
     override fun bindListeners() {
-        switchTheme.setOnCheckedChangeListener { _, isChecked ->
+        switchHomeTheme.setOnCheckedChangeListener { _, isChecked ->
             changeTheme(isLight = isChecked)
         }
 
-        switchLanguage.setOnCheckedChangeListener { _, isChecked ->
+        switchHomeLanguage.setOnCheckedChangeListener { _, isChecked ->
             changeLanguage(isGeorgian = isChecked)
         }
     }
@@ -108,13 +107,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
 
         state.dataList?.let {
-            val list = listOf(
-                HomeWrapperModel.BannerImage(bannerImage = it.bannerImage),
-                HomeWrapperModel.PromotionImages(promotionImages = it.promotionImages),
-                HomeWrapperModel.CategoryWrapperList(categoryWrapperList = it.categoryWrapperList)
-            )
-
-            setWrapperAdapter(list)
+            setWrapperAdapter(it)
         }
 
         state.errorMessage?.let {
@@ -130,15 +123,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         viewModel.onEvent(HomeEvent.FetchProducts)
     }
 
-    private fun setChangeSwitch() {
-        val navigationView = activity?.findViewById<NavigationView>(R.id.drawerMenu)
-
-        switchTheme =
-            navigationView?.menu?.findItem(R.id.themeMode)?.actionView?.findViewById(R.id.switchTheme)!!
-        switchLanguage =
-            navigationView.menu.findItem(R.id.language)?.actionView?.findViewById(R.id.switchLanguage)!!
-    }
-
     private fun changeTheme(isLight: Boolean) {
         viewModel.onEvent(HomeEvent.ChangeTheme(isLight = isLight))
     }
@@ -147,19 +131,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         viewModel.onEvent(HomeEvent.ChangeLanguage(isGeorgian = isGeorgian))
     }
 
+    private fun setChangeSwitch() {
+        val navigationView = activity?.findViewById<NavigationView>(R.id.drawerHomeMenu)
+
+        switchHomeTheme =
+            navigationView?.menu?.findItem(R.id.themeMode)?.actionView?.findViewById(R.id.switchTheme)!!
+        switchHomeLanguage =
+            navigationView.menu.findItem(R.id.language)?.actionView?.findViewById(R.id.switchLanguage)!!
+    }
+
     private fun handleAppStateChange(state: AppState) {
+        switchHomeTheme.isChecked = state.isLight
+        switchHomeLanguage.isChecked = state.isGeorgian
+
         if (state.isLight) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            switchTheme.isChecked = true
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            switchTheme.isChecked = false
-        }
-
-        if (state.isGeorgian) {
-            switchLanguage.isChecked = true
-        } else {
-            switchLanguage.isChecked = false
         }
 
         changeLanguageConfig(state.isGeorgian)

@@ -62,12 +62,14 @@ o	MVI <br />
 •	Dependency Injection using Dagger Hilt <br />
 •	Firebase for backend services <br />
 •	Retrofit API integration <br />
+•	Interceptor <br />
 •	Coroutines and Flow<br />
-•	SplashScreen API<br />
+•	SplashScreen<br />
 •	ViewBinding<br />
 •	Local Database using Room <br />
 •	Data Store Preferences <br />
 •	RecyclerView<br /> <br />
+•	ViewPager 2<br /> <br />
 
 API Used: <br />
 •	https://dummyjson.com/docs/products <br />

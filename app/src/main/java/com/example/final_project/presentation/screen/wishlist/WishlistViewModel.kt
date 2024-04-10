@@ -2,6 +2,10 @@ package com.example.final_project.presentation.screen.wishlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.final_project.domain.local.usecase.datastore.language.ChangeLanguageDataStoreUseCase
+import com.example.final_project.domain.local.usecase.datastore.language.GetLanguageDataStoreUseCase
+import com.example.final_project.domain.local.usecase.datastore.theme.ChangeThemeDataStoreUseCase
+import com.example.final_project.domain.local.usecase.datastore.theme.GetThemeDataStoreUseCase
 import com.example.final_project.domain.local.usecase.db_manipulators.DecreaseLocalProductQuantityUseCase
 import com.example.final_project.domain.local.usecase.db_manipulators.DeleteAllLocalProductsUseCase
 import com.example.final_project.domain.local.usecase.db_manipulators.DeleteLocalProductUseCase
@@ -9,11 +13,13 @@ import com.example.final_project.domain.local.usecase.db_manipulators.GetAllLoca
 import com.example.final_project.domain.local.usecase.db_manipulators.GetSumOfAllLocalProductsUseCase
 import com.example.final_project.domain.local.usecase.db_manipulators.IncreaseLocalProductQuantityUseCase
 import com.example.final_project.domain.remote.usecase.payment.PaymentUseCase
+import com.example.final_project.presentation.event.home.HomeEvent
 import com.example.final_project.presentation.event.wishlist.WishlistEvent
 import com.example.final_project.presentation.mapper.wishlist.toDomain
 import com.example.final_project.presentation.mapper.wishlist.toPresenter
 import com.example.final_project.presentation.model.wishlist.WishlistProduct
 import com.example.final_project.presentation.screen.product.ProductDetailedViewModel
+import com.example.final_project.presentation.state.app_state.AppState
 import com.example.final_project.presentation.state.wishlist.WishlistState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -32,7 +38,11 @@ class WishlistViewModel @Inject constructor(
     private val increaseLocalProductQuantityUseCase: IncreaseLocalProductQuantityUseCase,
     private val decreaseLocalProductQuantityUseCase: DecreaseLocalProductQuantityUseCase,
     private val getSumOfAllLocalProductsUseCase: GetSumOfAllLocalProductsUseCase,
-    private val paymentUseCase: PaymentUseCase
+    private val paymentUseCase: PaymentUseCase,
+    private val changeThemeDataStoreUseCase: ChangeThemeDataStoreUseCase,
+    private val getThemeDataStoreUseCase: GetThemeDataStoreUseCase,
+    private val changeLanguageDataStoreUseCase: ChangeLanguageDataStoreUseCase,
+    private val getLanguageDataStoreUseCase: GetLanguageDataStoreUseCase,
 ) : ViewModel() {
 
     private val _wishlistState = MutableStateFlow(WishlistState())
@@ -40,6 +50,9 @@ class WishlistViewModel @Inject constructor(
 
     private val _uiEvent = MutableSharedFlow<UIEvent>()
     val uiEvent: SharedFlow<UIEvent> get() = _uiEvent
+
+    private val _appState = MutableStateFlow(AppState())
+    val appState: SharedFlow<AppState> = _appState.asStateFlow()
 
     fun onEvent(event: WishlistEvent) {
         when (event) {
@@ -50,11 +63,15 @@ class WishlistViewModel @Inject constructor(
             is WishlistEvent.DecreaseItemQuantity -> decreaseQuantity(id = event.id)
             is WishlistEvent.ResetErrorMessage -> errorMessage(message = null)
             is WishlistEvent.BuyProduct -> buyProduct(amount = event.amount)
+            is WishlistEvent.ChangeTheme -> setLightTheme(isLight = event.isLight)
+            is WishlistEvent.ChangeLanguage -> changeLanguage(isGeorgian = event.isGeorgian)
         }
     }
 
     init {
         getTotalPrice()
+        getTheme()
+        getLanguage()
     }
 
     private fun fetchAllProducts() {
@@ -110,6 +127,50 @@ class WishlistViewModel @Inject constructor(
     private fun buyProduct(amount: Int) {
         val isSuccessful = paymentUseCase(amount = amount)
         navigateToPayment(isSuccessful = isSuccessful)
+    }
+
+    private fun setLightTheme(isLight: Boolean) {
+        viewModelScope.launch {
+            changeThemeDataStoreUseCase(isLight = isLight)
+        }
+    }
+
+    private fun getTheme() {
+        viewModelScope.launch {
+            getThemeDataStoreUseCase().collect {
+                if (it == "dark") {
+                    _appState.update { themeState ->
+                        themeState.copy(isLight = false)
+                    }
+                } else {
+                    _appState.update { themeState ->
+                        themeState.copy(isLight = true)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun changeLanguage(isGeorgian: Boolean) {
+        viewModelScope.launch {
+            changeLanguageDataStoreUseCase(isGeorgian = isGeorgian)
+        }
+    }
+
+    private fun getLanguage() {
+        viewModelScope.launch {
+            getLanguageDataStoreUseCase().collect {
+                if (it == "ka") {
+                    _appState.update { languageState ->
+                        languageState.copy(isGeorgian = true)
+                    }
+                } else {
+                    _appState.update { languageState ->
+                        languageState.copy(isGeorgian = false)
+                    }
+                }
+            }
+        }
     }
 
     private fun navigateToPayment(isSuccessful: Boolean) {

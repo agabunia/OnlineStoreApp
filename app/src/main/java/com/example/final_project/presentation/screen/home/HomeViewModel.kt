@@ -16,6 +16,7 @@ import com.example.final_project.presentation.event.home.HomeEvent
 import com.example.final_project.presentation.mapper.common_product_list.toDomain
 import com.example.final_project.presentation.mapper.home.toPresenter
 import com.example.final_project.presentation.model.common_product_list.ProductCommonDetailed
+import com.example.final_project.presentation.model.home.HomeWrapperModel
 import com.example.final_project.presentation.state.app_state.AppState
 import com.example.final_project.presentation.state.home.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -69,15 +70,18 @@ class HomeViewModel @Inject constructor(
             getHomeDataUseCase().collect {
                 when (it) {
                     is Resource.Success -> {
-                        d("fetchedData", "${it.data}")
+                        val list = listOf(
+                            HomeWrapperModel.BannerImage(bannerImage = it.data.toPresenter().bannerImage),
+                            HomeWrapperModel.PromotionImages(promotionImages = it.data.toPresenter().promotionImages),
+                            HomeWrapperModel.CategoryWrapperList(categoryWrapperList = it.data.toPresenter().categoryWrapperList)
+                        )
                         _homeState.update { currentState ->
-                            currentState.copy(dataList = it.data.toPresenter())
+                            currentState.copy(dataList = list)
                         }
                     }
 
                     is Resource.Error -> {
                         errorMessage(message = it.errorMessage)
-                        d("fetchedData", it.errorMessage)
                     }
 
                     is Resource.Loading -> {
@@ -87,53 +91,6 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
-
-//    private fun fetchCategoryList() {
-//        viewModelScope.launch {
-//            getCategoryListUseCase().collect {
-//                when (it) {
-//                    is Resource.Success -> {
-//                        fetchProducts(it.data)
-//                    }
-//
-//                    is Resource.Error -> {
-//                        errorMessage(message = it.errorMessage)
-//                    }
-//
-//                    is Resource.Loading -> {
-//                        _homeState.update { currentState -> currentState.copy(isLoading = it.loading) }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    private fun fetchProducts(categories: List<String>) {
-//        viewModelScope.launch {
-//            for (category in categories) {
-//                getProductsByCategoryUseCase(category = category).collect {
-//                    when (it) {
-//                        is Resource.Success -> {
-//                            _homeState.update { currentState ->
-//                                currentState.copy(
-//                                    productsList = currentState.productsList.orEmpty() +
-//                                            CategoryWrapperList(category, it.data.toPresenter())
-//                                )
-//                            }
-//                        }
-//
-//                        is Resource.Error -> {
-//                            errorMessage(message = it.errorMessage)
-//                        }
-//
-//                        is Resource.Loading -> {
-//                            _homeState.update { currentState -> currentState.copy(isLoading = it.loading) }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     private fun errorMessage(message: String?) {
         _homeState.update { currentState -> currentState.copy(errorMessage = message) }

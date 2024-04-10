@@ -1,6 +1,5 @@
 package com.example.final_project.presentation.event.wishlist
 
-import com.example.final_project.presentation.event.search.SearchEvent
 import com.example.final_project.presentation.model.wishlist.WishlistProduct
 
 sealed class WishlistEvent {
@@ -11,4 +10,6 @@ sealed class WishlistEvent {
     data class DecreaseItemQuantity(val id: Int) : WishlistEvent()
     object DeleteAllItem : WishlistEvent()
     data class BuyProduct(var amount: Int): WishlistEvent()
+    data class ChangeTheme(val isLight: Boolean) : WishlistEvent()
+    data class ChangeLanguage(val isGeorgian: Boolean) : WishlistEvent()
 }
