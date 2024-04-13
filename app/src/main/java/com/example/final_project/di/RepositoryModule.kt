@@ -1,11 +1,13 @@
 package com.example.final_project.di
 
+import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.example.final_project.data.common.HandleResponse
 import com.example.final_project.data.local.dao.ProductDao
 import com.example.final_project.data.local.repository.datastore.DataStoreRepositoryImpl
 import com.example.final_project.data.local.repository.room.LocalProductRepositoryImpl
+import com.example.final_project.data.remote.repository.firebase.image_upload.UploadUriRepositoryImpl
 import com.example.final_project.data.remote.repository.home.CategoryListRepositoryImpl
 import com.example.final_project.data.remote.repository.home.HomeDataRepositoryImpl
 import com.example.final_project.data.remote.repository.home.ProductByCategoryRepositoryImpl
@@ -24,6 +26,7 @@ import com.example.final_project.data.remote.service.search.ProductSearchService
 import com.example.final_project.data.remote.service.search.ProductService
 import com.example.final_project.domain.local.repository.wishlist.LocalProductRepository
 import com.example.final_project.domain.local.repository.datastore.DataStoreRepository
+import com.example.final_project.domain.remote.repository.firebase.image_upload.UploadUriRepository
 import com.example.final_project.domain.remote.repository.home.CategoryListRepository
 import com.example.final_project.domain.remote.repository.home.HomeDataRepository
 import com.example.final_project.domain.remote.repository.home.ProductByCategoryRepository
@@ -34,9 +37,11 @@ import com.example.final_project.domain.remote.repository.profile.ProfileReposit
 import com.example.final_project.domain.remote.repository.registration.RegistrationRepository
 import com.example.final_project.domain.remote.repository.search.ProductRepository
 import com.example.final_project.domain.remote.repository.search.ProductSearchRepository
+import com.google.firebase.storage.StorageReference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -145,6 +150,12 @@ object RepositoryModule {
     @Singleton
     fun provideLocalProductRepository(productDao: ProductDao): LocalProductRepository {
         return LocalProductRepositoryImpl(productDao = productDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUploadUriRepository(storageReference: StorageReference, @ApplicationContext context: Context): UploadUriRepository {
+        return UploadUriRepositoryImpl(storageReference = storageReference, context = context)
     }
 
 }

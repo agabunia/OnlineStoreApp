@@ -6,8 +6,11 @@ import com.example.final_project.domain.remote.repository.registration.Registrat
 import com.example.final_project.domain.local.usecase.datastore.clear.ClearDataStoreUseCase
 import com.example.final_project.domain.local.usecase.datastore.authorization.ReadDataStoreUseCase
 import com.example.final_project.domain.local.usecase.datastore.authorization.SaveDataStoreUseCase
+import com.example.final_project.domain.local.usecase.datastore.profile_image.ReadUserUidUseCase
+import com.example.final_project.domain.remote.repository.firebase.image_upload.UploadUriRepository
 import com.example.final_project.domain.remote.usecase.login.LoginUseCase
 import com.example.final_project.domain.remote.usecase.payment.PaymentUseCase
+import com.example.final_project.domain.remote.usecase.profile.GetProfileImageUseCase
 import com.example.final_project.domain.remote.usecase.registration.RegistrationUseCase
 import com.example.final_project.domain.remote.usecase.validators.EmailValidatorUseCase
 import com.example.final_project.domain.remote.usecase.validators.PasswordRepeatValidatorUseCase
@@ -84,6 +87,14 @@ object UseCaseModule {
         dataStoreRepository: DataStoreRepository
     ): ClearDataStoreUseCase {
         return ClearDataStoreUseCase(dataStoreRepository = dataStoreRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideReadUserUidUseCase(
+        dataStoreRepository: DataStoreRepository
+    ): ReadUserUidUseCase {
+        return ReadUserUidUseCase(dataStoreRepository = dataStoreRepository)
     }
 
 }

@@ -12,6 +12,8 @@ import com.example.final_project.data.remote.service.product.ProductDetailedServ
 import com.example.final_project.data.remote.service.search.ProductSearchService
 import com.example.final_project.data.remote.service.search.ProductService
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -35,6 +37,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideStoreReference(): StorageReference = FirebaseStorage.getInstance().reference
 
     private const val BASE_URL = "https://run.mocky.io/"
 

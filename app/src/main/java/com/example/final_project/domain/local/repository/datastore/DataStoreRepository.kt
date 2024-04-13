@@ -19,4 +19,8 @@ interface DataStoreRepository {
     suspend fun putLanguageString(key: Preferences.Key<String>, value: String)
     suspend fun getLanguageString(key: Preferences.Key<String>): Flow<String>
 
+    // For profile Picture
+    fun readUid(key: Preferences.Key<String>): Flow<String>
+    suspend fun saveUdi(key: Preferences.Key<String>, value: String)
+
 }

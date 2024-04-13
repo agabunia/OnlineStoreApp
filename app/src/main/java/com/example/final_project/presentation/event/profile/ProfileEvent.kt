@@ -5,6 +5,6 @@ import android.net.Uri
 sealed class ProfileEvent {
     object LogOut: ProfileEvent()
     object Terms: ProfileEvent()
-//    object GetUserProfileImage: ProfileEvent()
-    data class ChangeImage(val uri: Uri): ProfileEvent()
+    data class UploadImage(val uri: Uri): ProfileEvent()
+    object GetProfileImage: ProfileEvent()
 }

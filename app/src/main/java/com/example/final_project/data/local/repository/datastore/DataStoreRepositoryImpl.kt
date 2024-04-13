@@ -54,5 +54,17 @@ class DataStoreRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun readUid(key: Preferences.Key<String>): Flow<String> {
+        return dataStore.data.map {
+            it[key] ?: ""
+        }
+    }
+
+    override suspend fun saveUdi(key: Preferences.Key<String>, value: String) {
+        dataStore.edit {
+            it[key] = value
+        }
+    }
+
 
 }
