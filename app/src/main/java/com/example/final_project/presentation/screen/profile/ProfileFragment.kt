@@ -1,10 +1,8 @@
 package com.example.final_project.presentation.screen.profile
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,7 +11,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.example.final_project.databinding.FragmentProfileBinding
 import com.example.final_project.presentation.activity.MainActivity
 import com.example.final_project.presentation.base.BaseFragment
@@ -28,9 +25,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     private val viewModel: ProfileViewModel by viewModels()
     private var selectedImageUri: Uri? = null
 
-    private val permissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
-
     private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -39,13 +33,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
                 selectedImageUri?.let { uri ->
                     viewModel.onEvent(ProfileEvent.UploadImage(uri = uri))
-                    Glide.with(requireContext()).load(uri).into(binding.ivProfileImage)
                 }
             }
         }
 
     override fun bind() {
-        (activity as? MainActivity)?.showBottomNavigationBar()
         viewModel.onEvent(ProfileEvent.GetProfileImage)
     }
 

@@ -67,7 +67,7 @@ class ProfileViewModel @Inject constructor(
             getUserProfileImageUseCase(uid = uid).collect {
                 when (it) {
                     is Resource.Success -> _profileState.update { currentState ->
-                        currentState.copy(userImage = currentState.userImage)
+                        currentState.copy(userImage = it.data.toString())
                     }
 
                     is Resource.Error -> errorMessage(message = it.errorMessage)
@@ -81,7 +81,18 @@ class ProfileViewModel @Inject constructor(
 
     private suspend fun uploadImage(uri: Uri) {
         val uid = readUserUidUseCase().first()
-        changeProfileImageUseCase(uri = uri, uid = uid).collect {}
+        changeProfileImageUseCase(uri = uri, uid = uid).collect {
+            when (it) {
+                is Resource.Success -> _profileState.update { currentState ->
+                    currentState.copy(userImage = uri.toString())
+                }
+
+                is Resource.Error -> errorMessage(message = it.errorMessage)
+                is Resource.Loading -> _profileState.update { currentState ->
+                    currentState.copy(isLoading = it.loading)
+                }
+            }
+        }
     }
 
     private fun errorMessage(message: String?) {

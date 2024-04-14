@@ -30,7 +30,6 @@ class ProductDetailedFragment :
     private val productArgs: ProductDetailedFragmentArgs by navArgs()
 
     override fun bind() {
-        (activity as? MainActivity)?.hideBottomNavigationBar()
         viewModel.onEvent(ProductEvent.FetchProductDetailed(productArgs.id))
     }
 

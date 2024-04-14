@@ -10,7 +10,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class TermsFragment : BaseFragment<FragmentTermsBinding>(FragmentTermsBinding::inflate) {
 
     override fun bind() {
-        (activity as? MainActivity)?.hideBottomNavigationBar()
     }
 
     override fun bindListeners() {

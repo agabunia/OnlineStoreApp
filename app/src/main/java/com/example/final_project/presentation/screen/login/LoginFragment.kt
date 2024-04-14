@@ -20,7 +20,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private val viewModel: LoginViewModel by viewModels()
 
     override fun bind() {
-        (activity as? MainActivity)?.hideBottomNavigationBar()
     }
 
     override fun bindListeners() {

@@ -18,7 +18,6 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
     private val viewModel: SplashViewModel by viewModels()
 
     override fun bind() {
-        (activity as? MainActivity)?.hideBottomNavigationBar()
     }
 
     override fun bindListeners() {

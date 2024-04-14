@@ -13,8 +13,6 @@ import com.example.final_project.data.remote.repository.home.HomeDataRepositoryI
 import com.example.final_project.data.remote.repository.home.ProductByCategoryRepositoryImpl
 import com.example.final_project.data.remote.repository.login.LoginRepositoryImpl
 import com.example.final_project.data.remote.repository.product.ProductDetailedRepositoryImpl
-import com.example.final_project.data.remote.repository.profile.GetProfileImageRepositoryImpl
-import com.example.final_project.data.remote.repository.profile.ProfileChangeImageRepositoryImpl
 import com.example.final_project.data.remote.repository.registration.RegistrationRepositoryImpl
 import com.example.final_project.data.remote.repository.search.ProductRepositoryImpl
 import com.example.final_project.data.remote.repository.search.ProductSearchRepositoryImpl
@@ -32,8 +30,6 @@ import com.example.final_project.domain.remote.repository.home.HomeDataRepositor
 import com.example.final_project.domain.remote.repository.home.ProductByCategoryRepository
 import com.example.final_project.domain.remote.repository.login.LoginRepository
 import com.example.final_project.domain.remote.repository.product.ProductDetailedRepository
-import com.example.final_project.domain.remote.repository.profile.GetProfileImageRepository
-import com.example.final_project.domain.remote.repository.profile.ProfileRepository
 import com.example.final_project.domain.remote.repository.registration.RegistrationRepository
 import com.example.final_project.domain.remote.repository.search.ProductRepository
 import com.example.final_project.domain.remote.repository.search.ProductSearchRepository
@@ -56,16 +52,6 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideRegistrationRepository(impl: RegistrationRepositoryImpl): RegistrationRepository =
-        impl
-
-    @Provides
-    @Singleton
-    fun provideProfileRepository(impl: ProfileChangeImageRepositoryImpl): ProfileRepository =
-        impl
-
-    @Provides
-    @Singleton
-    fun provideGetProfileImageRepository(impl: GetProfileImageRepositoryImpl): GetProfileImageRepository =
         impl
 
     @Provides

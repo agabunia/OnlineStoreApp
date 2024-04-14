@@ -21,7 +21,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivProfileImage"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/user_picture" />
 
@@ -31,12 +31,13 @@
         android:id="@+id/btnEditImage"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="-15dp"
-        android:layout_marginEnd="-15dp"
+        android:layout_marginEnd="-7dp"
+        android:layout_marginBottom="-8dp"
         android:background="@drawable/circle"
+        android:elevation="16dp"
         android:src="@drawable/ic_edit"
-        app:layout_constraintEnd_toEndOf="@id/cardImage"
-        app:layout_constraintTop_toBottomOf="@id/cardImage" />
+        app:layout_constraintBottom_toBottomOf="@id/cardImage"
+        app:layout_constraintEnd_toEndOf="@id/cardImage" />
 
     <View
         android:id="@+id/line"

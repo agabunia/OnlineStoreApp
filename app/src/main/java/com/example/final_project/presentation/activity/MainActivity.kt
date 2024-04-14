@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestPermission()
@@ -31,21 +30,25 @@ class MainActivity : AppCompatActivity() {
         readPushToken()
     }
 
-    fun hideBottomNavigationBar() {
-        binding.bottomNavigation.visibility = View.GONE
-    }
-
-    fun showBottomNavigationBar() {
-        binding.bottomNavigation.visibility = View.VISIBLE
-    }
-
     private fun setNavigation() {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        val navController = navHostFragment.navController
-        binding.bottomNavigation.setupWithNavController(
-            navController
-        )
+        with(binding) {
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+            val navController = navHostFragment.navController
+            bottomNavigation.setupWithNavController(
+                navController
+            )
+
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                when (destination.id) {
+                    R.id.homeFragment, R.id.searchFragment, R.id.wishlistFragment, R.id.profileFragment, R.id.paymentFragment -> {
+                        bottomNavigation.visibility = View.VISIBLE
+                    }
+
+                    else -> bottomNavigation.visibility = View.GONE
+                }
+            }
+        }
     }
 
     private fun requestPermission() {

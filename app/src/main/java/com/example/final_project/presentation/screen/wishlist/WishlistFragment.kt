@@ -38,7 +38,6 @@ class WishlistFragment : BaseFragment<FragmentWishlistBinding>(FragmentWishlistB
     private var amount: Int = 0
 
     override fun bind() {
-        (activity as? MainActivity)?.showBottomNavigationBar()
         setWishlistProductAdapter()
         setChangeSwitch()
     }

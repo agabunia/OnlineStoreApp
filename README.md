@@ -33,7 +33,10 @@ Placing Orders: <br />
 •	Once satisfied with their selection, users can proceed to checkout and place their orders. <br />
 •	Payment options include credit/debit cards, PayPal, and other supported methods. <br /> <br />
 User Profile Management: <br />
-•	Users can change profile picture. <br />
+•	Users can change profile picture, which will be saved in firebase cloud store. <br /> <br />
+Additional Features: <br />
+•	Users can change app theme between light and dark themes, and language between English and Georgian. Users can access those features from Drawer Menu, 
+which can be made from home, search and wishlist pages. <br />
 
 ### User Guide
 Browsing Products: <br />
@@ -54,22 +57,26 @@ Adding/Editing Address/Cards <br /> <br />
 •	Click on “Add new Address”/”Add new Card” button <br />
 •	Click on “Save Info” button <br />
 
-### Technical Documentation:
+### Application Architecture:
 Built With  <br />
 •	Project Architecture: <br />
 o	Clean Architecture <br />
 o	MVI <br />
 •	Dependency Injection using Dagger Hilt <br />
-•	Firebase for backend services <br />
+•	Firebase Authentication <br />
+•	Firebase Cloud Store <br />
+•	Firebase Push Notifications <br />
 •	Retrofit API integration <br />
 •	Interceptor <br />
-•	Coroutines and Flow<br />
-•	SplashScreen<br />
-•	ViewBinding<br />
+•	Coroutines and Flow <br />
+•	SplashScreen <br />
+•	Bottom Navigation Bar <br />
+•	Drawer Menu <br /> <br />
+•	ViewBinding <br />
 •	Local Database using Room <br />
 •	Data Store Preferences <br />
-•	RecyclerView<br /> <br />
-•	ViewPager 2<br /> <br />
+•	RecyclerView <br />
+•	ViewPager 2 <br /> <br />
 
 API Used: <br />
 •	https://dummyjson.com/docs/products <br />

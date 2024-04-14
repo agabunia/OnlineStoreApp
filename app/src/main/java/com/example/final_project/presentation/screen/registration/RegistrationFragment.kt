@@ -21,7 +21,6 @@ class RegistrationFragment :
     private val viewModel: RegistrationViewModel by viewModels()
 
     override fun bind() {
-        (activity as? MainActivity)?.hideBottomNavigationBar()
     }
 
     override fun bindListeners() {

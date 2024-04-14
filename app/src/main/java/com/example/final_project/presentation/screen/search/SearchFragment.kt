@@ -36,7 +36,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
     private lateinit var switchSearchLanguage: SwitchCompat
 
     override fun bind() {
-        (activity as? MainActivity)?.showBottomNavigationBar()
         setProductAdapter()
         setChangeSwitch()
     }

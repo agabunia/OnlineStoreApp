@@ -36,7 +36,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private lateinit var switchHomeLanguage: SwitchCompat
 
     override fun bind() {
-        (activity as? MainActivity)?.showBottomNavigationBar()
         setChangeSwitch()
         fetchData()
     }
