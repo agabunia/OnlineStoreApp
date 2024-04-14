@@ -82,6 +82,9 @@
         <action
             android:id="@+id/action_profileFragment_to_termsFragment"
             app:destination="@id/termsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_walletFragment"
+            app:destination="@id/walletFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailedFragment"
@@ -125,5 +128,26 @@
             android:id="@+id/action_termsFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/walletFragment"
+        android:name="com.example.final_project.presentation.screen.wallet.WalletFragment"
+        android:label="fragment_wallet"
+        tools:layout="@layout/fragment_wallet" >
+        <action
+            android:id="@+id/action_walletFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_walletFragment_to_cardBottomSheetFragment"
+            app:destination="@id/cardBottomSheetFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/cardBottomSheetFragment"
+        android:name="com.example.final_project.presentation.bottom_sheet_fragment.card.CardBottomSheetFragment"
+        android:label="fragment_card_bottom_sheet"
+        tools:layout="@layout/fragment_card_bottom_sheet" >
+        <action
+            android:id="@+id/action_cardBottomSheetFragment_to_walletFragment"
+            app:destination="@id/walletFragment" />
+    </dialog>
 
 </navigation>

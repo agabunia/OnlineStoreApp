@@ -71,7 +71,7 @@ o	MVI <br />
 •	Coroutines and Flow <br />
 •	SplashScreen <br />
 •	Bottom Navigation Bar <br />
-•	Drawer Menu <br /> <br />
+•	Drawer Menu <br />
 •	ViewBinding <br />
 •	Local Database using Room <br />
 •	Data Store Preferences <br />

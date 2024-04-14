@@ -184,7 +184,7 @@ class WishlistFragment : BaseFragment<FragmentWishlistBinding>(FragmentWishlistB
 
     private fun handleUiEvent(event: WishlistViewModel.UIEvent) {
         when (event) {
-            is WishlistViewModel.UIEvent.navigateToPayment -> navigateToPayment(event.isSuccessful)
+            is WishlistViewModel.UIEvent.NavigateToPayment -> navigateToPayment(event.isSuccessful)
         }
     }
 

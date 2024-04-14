@@ -7,10 +7,8 @@ import com.example.final_project.domain.local.usecase.datastore.clear.ClearDataS
 import com.example.final_project.domain.local.usecase.datastore.authorization.ReadDataStoreUseCase
 import com.example.final_project.domain.local.usecase.datastore.authorization.SaveDataStoreUseCase
 import com.example.final_project.domain.local.usecase.datastore.profile_image.ReadUserUidUseCase
-import com.example.final_project.domain.remote.repository.firebase.image_upload.UploadUriRepository
 import com.example.final_project.domain.remote.usecase.login.LoginUseCase
 import com.example.final_project.domain.remote.usecase.payment.PaymentUseCase
-import com.example.final_project.domain.remote.usecase.profile.GetProfileImageUseCase
 import com.example.final_project.domain.remote.usecase.registration.RegistrationUseCase
 import com.example.final_project.domain.remote.usecase.validators.EmailValidatorUseCase
 import com.example.final_project.domain.remote.usecase.validators.PasswordRepeatValidatorUseCase

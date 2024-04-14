@@ -1,4 +1,4 @@
-package com.example.final_project.data.remote.repository.firebase.image_upload
+package com.example.final_project.data.remote.repository.firebase_cloud_store.image_upload
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import com.example.final_project.data.common.Resource
 import com.example.final_project.data.common.await
-import com.example.final_project.domain.remote.repository.firebase.image_upload.UploadUriRepository
+import com.example.final_project.domain.remote.repository.firebase_cloud_store.image_upload.UploadUriRepository
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

@@ -42,18 +42,24 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     }
 
     override fun bindListeners() {
-        binding.layoutLogout.setOnClickListener {
-            viewModel.onEvent(ProfileEvent.LogOut)
-        }
+        with(binding) {
+            layoutLogout.setOnClickListener {
+                viewModel.onEvent(ProfileEvent.LogOut)
+            }
 
-        binding.layoutTerms.setOnClickListener {
-            viewModel.onEvent(ProfileEvent.Terms)
-        }
+            layoutTerms.setOnClickListener {
+                viewModel.onEvent(ProfileEvent.NavigateToTerms)
+            }
 
-        binding.btnEditImage.setOnClickListener {
-            val galleryIntent =
-                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            galleryLauncher.launch(galleryIntent)
+            layoutWallet.setOnClickListener {
+                viewModel.onEvent(ProfileEvent.NavigateToWallet)
+            }
+
+            btnEditImage.setOnClickListener {
+                val galleryIntent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                galleryLauncher.launch(galleryIntent)
+            }
         }
     }
 
@@ -93,6 +99,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         when (event) {
             is ProfileViewModel.UiEvent.NavigateToLogin -> navigateToLogin()
             is ProfileViewModel.UiEvent.NavigateToTerms -> navigateToTerms()
+            is ProfileViewModel.UiEvent.NavigateToWallet -> navigateToWallet()
         }
     }
 
@@ -102,6 +109,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
     private fun navigateToTerms() {
         findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToTermsFragment())
+    }
+
+    private fun navigateToWallet() {
+        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToWalletFragment())
     }
 
 }

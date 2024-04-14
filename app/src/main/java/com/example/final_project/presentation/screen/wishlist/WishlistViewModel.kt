@@ -176,15 +176,15 @@ class WishlistViewModel @Inject constructor(
     private fun navigateToPayment(isSuccessful: Boolean) {
         viewModelScope.launch {
             if (isSuccessful) {
-                _uiEvent.emit(UIEvent.navigateToPayment(true))
+                _uiEvent.emit(UIEvent.NavigateToPayment(true))
             } else {
-                _uiEvent.emit(UIEvent.navigateToPayment(false))
+                _uiEvent.emit(UIEvent.NavigateToPayment(false))
             }
         }
     }
 
     sealed class UIEvent() {
-        data class navigateToPayment(val isSuccessful: Boolean) : UIEvent()
+        data class NavigateToPayment(val isSuccessful: Boolean) : UIEvent()
     }
 
 }

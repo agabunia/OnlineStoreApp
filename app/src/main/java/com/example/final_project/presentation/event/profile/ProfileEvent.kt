@@ -4,7 +4,8 @@ import android.net.Uri
 
 sealed class ProfileEvent {
     object LogOut: ProfileEvent()
-    object Terms: ProfileEvent()
+    object NavigateToTerms: ProfileEvent()
     data class UploadImage(val uri: Uri): ProfileEvent()
     object GetProfileImage: ProfileEvent()
+    object NavigateToWallet: ProfileEvent()
 }

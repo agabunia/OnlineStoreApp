@@ -40,23 +40,11 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             when (event) {
                 is ProfileEvent.LogOut -> logout()
-                is ProfileEvent.Terms -> navigateToTerms()
+                is ProfileEvent.NavigateToTerms -> navigateToTerms()
                 is ProfileEvent.UploadImage -> uploadImage(uri = event.uri)
                 is ProfileEvent.GetProfileImage -> getProfileImage()
+                is ProfileEvent.NavigateToWallet -> navigateToWallet()
             }
-        }
-    }
-
-    private fun logout() {
-        viewModelScope.launch {
-            clearDataStoreUseCase()
-            _uiEvent.emit(UiEvent.NavigateToLogin)
-        }
-    }
-
-    private fun navigateToTerms() {
-        viewModelScope.launch {
-            _uiEvent.emit(UiEvent.NavigateToTerms)
         }
     }
 
@@ -99,9 +87,29 @@ class ProfileViewModel @Inject constructor(
         _profileState.update { currentState -> currentState.copy(errorMessage = message) }
     }
 
+    private fun logout() {
+        viewModelScope.launch {
+            clearDataStoreUseCase()
+            _uiEvent.emit(UiEvent.NavigateToLogin)
+        }
+    }
+
+    private fun navigateToTerms() {
+        viewModelScope.launch {
+            _uiEvent.emit(UiEvent.NavigateToTerms)
+        }
+    }
+
+    private fun navigateToWallet() {
+        viewModelScope.launch {
+            _uiEvent.emit(UiEvent.NavigateToWallet)
+        }
+    }
+
     sealed interface UiEvent {
         object NavigateToLogin : UiEvent
         object NavigateToTerms : UiEvent
+        object NavigateToWallet: UiEvent
     }
 
 }
