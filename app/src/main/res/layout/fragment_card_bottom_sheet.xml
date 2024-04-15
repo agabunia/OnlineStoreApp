@@ -1,16 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AddCardBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingVertical="20dp"
     tools:context=".presentation.bottom_sheet_fragment.card.CardBottomSheetFragment">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/cardNumberLayout"
+        style="@style/LoginTextInputOuterFieldStyle"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="Hello From Bottom Dialog Fragment"
-        android:textColor="@color/black" />
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCardNumber"
+            style="@style/LoginTextInputInnerFieldStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_card_other"
+            android:hint="@string/card_number"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            android:textSize="20sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/expirationDateLayout"
+        style="@style/LoginTextInputOuterFieldStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/cvvLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardNumberLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etExpirationDate"
+            style="@style/LoginTextInputInnerFieldStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/expiration_date"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            android:textSize="20sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/cvvLayout"
+        style="@style/LoginTextInputOuterFieldStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/expirationDateLayout"
+        app:layout_constraintTop_toBottomOf="@+id/cardNumberLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCvv"
+            style="@style/LoginTextInputInnerFieldStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cvv"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            android:textSize="20sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAddCard"
+        style="@style/MainButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/add_card"
+        android:textColor="@color/white"
+        android:theme="@style/MainImageButtonTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expirationDateLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,8 +12,10 @@
     <color name="darkest_blue">#22343C</color>
     <color name="milky">#EDEDED</color>
     <color name="dark_blue">#465F6C</color>
+    <color name="dark_blue_lighter">#68808C</color>
     <color name="blue">#1F7AB6</color>
     <color name="green_sheen">#67C4A7</color>
+    <color name="light_green">#B3E4D5</color>
     <color name="sky">#E3F2F4</color>
     <color name="yellow">#F1D802</color>
     <color name="dark_grey">#5C5B5B</color>

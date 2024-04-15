@@ -11,3 +11,11 @@ fun AppCompatImageView.loadImage(url: String?) {
         .error(R.drawable.ic_launcher_background)
         .into(this);
 }
+
+fun AppCompatImageView.loadImageId(url: Int?) {
+    Glide.with(context)
+        .load(url)
+        .placeholder(R.drawable.ic_launcher_background)
+        .error(R.drawable.ic_launcher_background)
+        .into(this);
+}
