@@ -10,6 +10,9 @@ import com.example.final_project.domain.local.usecase.datastore.profile_image.Re
 import com.example.final_project.domain.remote.usecase.login.LoginUseCase
 import com.example.final_project.domain.remote.usecase.payment.PaymentUseCase
 import com.example.final_project.domain.remote.usecase.registration.RegistrationUseCase
+import com.example.final_project.domain.remote.usecase.validators.card.CardCvvValidatorUseCase
+import com.example.final_project.domain.remote.usecase.validators.card.CardDateValidatorUseCase
+import com.example.final_project.domain.remote.usecase.validators.card.CardNumberValidatorUseCase
 import com.example.final_project.domain.remote.usecase.validators.user.EmailValidatorUseCase
 import com.example.final_project.domain.remote.usecase.validators.user.PasswordRepeatValidatorUseCase
 import com.example.final_project.domain.remote.usecase.validators.user.PasswordValidatorUseCase
@@ -93,6 +96,24 @@ object UseCaseModule {
         dataStoreRepository: DataStoreRepository
     ): ReadUserUidUseCase {
         return ReadUserUidUseCase(dataStoreRepository = dataStoreRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCardNumberValidatorUseCase(): CardNumberValidatorUseCase {
+        return CardNumberValidatorUseCase()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCardDateValidatorUseCase(): CardDateValidatorUseCase {
+        return CardDateValidatorUseCase()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCardCvvValidatorUseCase(): CardCvvValidatorUseCase {
+        return CardCvvValidatorUseCase()
     }
 
 }

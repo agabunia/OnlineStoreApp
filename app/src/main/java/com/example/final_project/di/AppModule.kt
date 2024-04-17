@@ -12,6 +12,7 @@ import com.example.final_project.data.remote.service.product.ProductDetailedServ
 import com.example.final_project.data.remote.service.search.ProductSearchService
 import com.example.final_project.data.remote.service.search.ProductService
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.moshi.Moshi
@@ -41,6 +42,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideStoreReference(): StorageReference = FirebaseStorage.getInstance().reference
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFireStore(): FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private const val BASE_URL = "https://run.mocky.io/"
 

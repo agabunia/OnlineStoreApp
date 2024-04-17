@@ -7,6 +7,7 @@ import com.example.final_project.data.common.HandleResponse
 import com.example.final_project.data.local.dao.ProductDao
 import com.example.final_project.data.local.repository.datastore.DataStoreRepositoryImpl
 import com.example.final_project.data.local.repository.room.LocalProductRepositoryImpl
+import com.example.final_project.data.remote.repository.firebase_cloud_store.card.CardRepositoryImpl
 import com.example.final_project.data.remote.repository.firebase_cloud_store.image_upload.UploadUriRepositoryImpl
 import com.example.final_project.data.remote.repository.home.CategoryListRepositoryImpl
 import com.example.final_project.data.remote.repository.home.HomeDataRepositoryImpl
@@ -24,6 +25,7 @@ import com.example.final_project.data.remote.service.search.ProductSearchService
 import com.example.final_project.data.remote.service.search.ProductService
 import com.example.final_project.domain.local.repository.wishlist.LocalProductRepository
 import com.example.final_project.domain.local.repository.datastore.DataStoreRepository
+import com.example.final_project.domain.remote.repository.firebase_cloud_store.card.CardRepository
 import com.example.final_project.domain.remote.repository.firebase_cloud_store.image_upload.UploadUriRepository
 import com.example.final_project.domain.remote.repository.home.CategoryListRepository
 import com.example.final_project.domain.remote.repository.home.HomeDataRepository
@@ -33,6 +35,7 @@ import com.example.final_project.domain.remote.repository.product.ProductDetaile
 import com.example.final_project.domain.remote.repository.registration.RegistrationRepository
 import com.example.final_project.domain.remote.repository.search.ProductRepository
 import com.example.final_project.domain.remote.repository.search.ProductSearchRepository
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
 import dagger.Module
 import dagger.Provides
@@ -142,6 +145,12 @@ object RepositoryModule {
     @Singleton
     fun provideUploadUriRepository(storageReference: StorageReference, @ApplicationContext context: Context): UploadUriRepository {
         return UploadUriRepositoryImpl(storageReference = storageReference, context = context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCardRepository(db: FirebaseFirestore): CardRepository {
+        return CardRepositoryImpl(db = db)
     }
 
 }

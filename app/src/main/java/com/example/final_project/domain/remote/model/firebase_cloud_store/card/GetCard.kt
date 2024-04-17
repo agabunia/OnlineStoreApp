@@ -1,13 +1,13 @@
-package com.example.final_project.presentation.model.wallet
+package com.example.final_project.domain.remote.model.firebase_cloud_store.card
 
-data class Card(
+data class GetCard(
     val id: String,
     val cardNumber: String,
     val date: String,
     val cvv: String,
-    val cardType: CardType
+    val cardType: GetCardType
 ) {
-    enum class CardType {
+    enum class GetCardType {
         VISA,
         MASTER_CARD,
         AMERICAN_EXPRESS,
