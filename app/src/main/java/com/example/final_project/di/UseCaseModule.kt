@@ -10,9 +10,9 @@ import com.example.final_project.domain.local.usecase.datastore.profile_image.Re
 import com.example.final_project.domain.remote.usecase.login.LoginUseCase
 import com.example.final_project.domain.remote.usecase.payment.PaymentUseCase
 import com.example.final_project.domain.remote.usecase.registration.RegistrationUseCase
-import com.example.final_project.domain.remote.usecase.validators.EmailValidatorUseCase
-import com.example.final_project.domain.remote.usecase.validators.PasswordRepeatValidatorUseCase
-import com.example.final_project.domain.remote.usecase.validators.PasswordValidatorUseCase
+import com.example.final_project.domain.remote.usecase.validators.user.EmailValidatorUseCase
+import com.example.final_project.domain.remote.usecase.validators.user.PasswordRepeatValidatorUseCase
+import com.example.final_project.domain.remote.usecase.validators.user.PasswordValidatorUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

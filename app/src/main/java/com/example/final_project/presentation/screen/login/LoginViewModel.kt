@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.final_project.data.common.Resource
 import com.example.final_project.domain.local.usecase.datastore.authorization.SaveDataStoreUseCase
 import com.example.final_project.domain.remote.usecase.login.LoginUseCase
-import com.example.final_project.domain.remote.usecase.validators.EmailValidatorUseCase
-import com.example.final_project.domain.remote.usecase.validators.PasswordValidatorUseCase
+import com.example.final_project.domain.remote.usecase.validators.user.EmailValidatorUseCase
+import com.example.final_project.domain.remote.usecase.validators.user.PasswordValidatorUseCase
 import com.example.final_project.presentation.event.login.LoginEvent
 import com.example.final_project.presentation.state.login.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel

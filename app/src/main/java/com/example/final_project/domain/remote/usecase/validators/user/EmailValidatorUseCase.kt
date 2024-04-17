@@ -1,4 +1,4 @@
-package com.example.final_project.domain.remote.usecase.validators
+package com.example.final_project.domain.remote.usecase.validators.user
 
 class EmailValidatorUseCase {
     private val emailRegex = Regex(

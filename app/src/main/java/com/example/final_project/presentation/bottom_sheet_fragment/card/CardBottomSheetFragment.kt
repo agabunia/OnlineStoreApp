@@ -1,6 +1,7 @@
 package com.example.final_project.presentation.bottom_sheet_fragment.card
 
 
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
@@ -15,6 +16,7 @@ import com.example.final_project.presentation.event.bottom_sheet_fragment.card.C
 import com.example.final_project.presentation.extention.loadImage
 import com.example.final_project.presentation.extention.loadImageId
 import com.example.final_project.presentation.model.wallet.Card
+import com.example.final_project.presentation.state.card.CardState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -36,9 +38,17 @@ class CardBottomSheetFragment :
                     etCardNumber.setText(formattedText)
                     etCardNumber.setSelection(etCardNumber.length())
                 }
+                setCardTypeImage()
             }
 
-            setCardTypeImage()
+            etExpirationDate.doAfterTextChanged { text ->
+                val formattedDate = text.toString().replace("/", "").chunked(2).joinToString("/")
+
+                if (formattedDate != text.toString()) {
+                    etExpirationDate.setText(formattedDate)
+                    etExpirationDate.setSelection(etExpirationDate.length())
+                }
+            }
 
             btnAddCard.setOnClickListener {
                 viewModel.onEvent(
@@ -57,10 +67,18 @@ class CardBottomSheetFragment :
     }
 
     override fun bindObserves() {
-        viewLifecycleOwner.lifecycleScope.launch{
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiEvent.collect{
+                viewModel.uiEvent.collect {
                     handleUiEvent(it)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.cardState.collect {
+                    handleState(it)
                 }
             }
         }
@@ -81,7 +99,6 @@ class CardBottomSheetFragment :
         }
 
         val drawable = ContextCompat.getDrawable(requireContext(), drawableString)
-
         binding.etCardNumber.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
     }
 
@@ -95,8 +112,19 @@ class CardBottomSheetFragment :
         }
     }
 
+    private fun handleState(state: CardState) {
+        state.errorMessage?.let {
+            toastMessage(message = it)
+            viewModel.onEvent(CardEvent.ResetErrorMessage)
+        }
+    }
+
+    private fun toastMessage(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+    }
+
     private fun handleUiEvent(event: CardBottomSheetFragmentViewModel.CardUiEvent) {
-        when(event) {
+        when (event) {
             is CardBottomSheetFragmentViewModel.CardUiEvent.NavigateToWallet -> navigateToWallet()
         }
     }
