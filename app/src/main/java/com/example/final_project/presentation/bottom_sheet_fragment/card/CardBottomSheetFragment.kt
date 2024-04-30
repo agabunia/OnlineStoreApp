@@ -13,12 +13,10 @@ import com.example.final_project.R
 import com.example.final_project.databinding.FragmentCardBottomSheetBinding
 import com.example.final_project.presentation.base.BaseBottomSheetFragment
 import com.example.final_project.presentation.event.bottom_sheet_fragment.card.CardEvent
-import com.example.final_project.presentation.extention.loadImage
-import com.example.final_project.presentation.extention.loadImageId
+import com.example.final_project.presentation.extention.formatCardInfo
 import com.example.final_project.presentation.model.wallet.Card
 import com.example.final_project.presentation.state.card.CardState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -31,31 +29,20 @@ class CardBottomSheetFragment :
 
     override fun bindListeners() {
         with(binding) {
-            etCardNumber.doAfterTextChanged { text ->
-                val formattedText = text.toString().replace(" ", "").chunked(4).joinToString(" ")
-
-                if (formattedText != text.toString()) {
-                    etCardNumber.setText(formattedText)
-                    etCardNumber.setSelection(etCardNumber.length())
-                }
-                setCardTypeImage()
-            }
-
-            etExpirationDate.doAfterTextChanged { text ->
-                val formattedDate = text.toString().replace("/", "").chunked(2).joinToString("/")
-
-                if (formattedDate != text.toString()) {
-                    etExpirationDate.setText(formattedDate)
-                    etExpirationDate.setSelection(etExpirationDate.length())
+            etCardNumber.apply {
+                formatCardInfo(4, " ")
+                doAfterTextChanged {
+                    setCardTypeImage()
                 }
             }
+            etExpirationDate.formatCardInfo(2, "/")
 
             btnAddCard.setOnClickListener {
                 viewModel.onEvent(
                     CardEvent.AddCard(
                         Card(
                             id = etCardNumber.text.toString().replace(" ", ""),
-                            cardNumber = etCardNumber.text.toString(),
+                            cardNumber = etCardNumber.text.toString().replace(" ", ""),
                             date = etExpirationDate.text.toString(),
                             cvv = etCvv.text.toString(),
                             cardType = setCardType()
@@ -85,25 +72,21 @@ class CardBottomSheetFragment :
     }
 
     private fun setCardTypeImage() {
-        val number = binding.etCardNumber.text
+        val number = binding.etCardNumber.text.toString().takeIf { it.isNotBlank() }?.get(0)
 
-        val drawableString = if (number.isNullOrBlank()) {
-            R.drawable.ic_card_other
-        } else {
-            when (number.toString()[0]) {
-                '4' -> R.drawable.ic_card_visa
-                '2', '5' -> R.drawable.ic_card_mc
-                '3' -> R.drawable.ic_card_amex
-                else -> R.drawable.ic_card_other
-            }
+        val drawableResId = when (number) {
+            '4' -> R.drawable.ic_card_visa
+            '2', '5' -> R.drawable.ic_card_mc
+            '3' -> R.drawable.ic_card_amex
+            else -> R.drawable.ic_card_other
         }
 
-        val drawable = ContextCompat.getDrawable(requireContext(), drawableString)
+        val drawable = ContextCompat.getDrawable(requireContext(), drawableResId)
         binding.etCardNumber.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
     }
 
     private fun setCardType(): Card.CardType {
-        val number = binding.etCardNumber.text.toString()[0]
+        val number = binding.etCardNumber.text.toString().takeIf { it.isNotBlank() }?.get(0)
         return when (number) {
             '4' -> Card.CardType.VISA
             '2', '5' -> Card.CardType.MASTER_CARD

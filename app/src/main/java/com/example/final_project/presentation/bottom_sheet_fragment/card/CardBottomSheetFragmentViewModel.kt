@@ -2,7 +2,7 @@ package com.example.final_project.presentation.bottom_sheet_fragment.card
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.final_project.domain.local.usecase.datastore.clear.ClearDataStoreUseCase
+import com.example.final_project.data.common.Resource
 import com.example.final_project.domain.local.usecase.datastore.profile_image.ReadUserUidUseCase
 import com.example.final_project.domain.remote.usecase.validators.card.CardCvvValidatorUseCase
 import com.example.final_project.domain.remote.usecase.validators.card.CardDateValidatorUseCase
@@ -51,20 +51,30 @@ class CardBottomSheetFragmentViewModel @Inject constructor(
         val isCardCvvValid = cardCvvValidatorUseCase(newCard.cvv)
 
         if (!isCardNumberValid || !isCardCvvValid) {
-            errorMessage(message = "Card Number is not Valid")
-//        } else if (!isCardDateValid) {
-//            errorMessage(message = "Card Is Outdated")
+            errorMessage(message = "Card info is not valid")
+        } else if (!isCardDateValid) {
+            errorMessage(message = "Card is outdated")
         } else {
             addCard(newCard = newCard)
-//            navigateToWallet()
+            navigateToWallet()
         }
-
     }
 
     private fun addCard(newCard: Card) {
         viewModelScope.launch {
             val uid = readUserUidUseCase().first()
-            addCardUseCase(uid = uid, card = newCard.toDomain())
+            addCardUseCase(uid = uid, card = newCard.toDomain()).collect {
+                when (it) {
+                    is Resource.Success -> _cardState.update { currentState ->
+                        currentState.copy(isAdded = it.data)
+                    }
+
+                    is Resource.Error -> errorMessage(message = it.errorMessage)
+                    is Resource.Loading -> _cardState.update { currentState ->
+                        currentState.copy(isLoading = it.loading)
+                    }
+                }
+            }
         }
     }
 
@@ -82,6 +92,5 @@ class CardBottomSheetFragmentViewModel @Inject constructor(
     sealed interface CardUiEvent {
         object NavigateToWallet : CardUiEvent
     }
-
 
 }

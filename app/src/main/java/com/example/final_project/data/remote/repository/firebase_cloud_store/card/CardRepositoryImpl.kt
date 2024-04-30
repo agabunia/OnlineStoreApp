@@ -1,5 +1,6 @@
 package com.example.final_project.data.remote.repository.firebase_cloud_store.card
 
+import android.util.Log.d
 import com.example.final_project.data.common.Resource
 import com.example.final_project.data.common.await
 import com.example.final_project.data.remote.mapper.firebase_cloud_store.card.toData
@@ -16,16 +17,23 @@ class CardRepositoryImpl @Inject constructor(
     private val db: FirebaseFirestore
 ) : CardRepository {
     override suspend fun addCard(uid: String, card: GetCard): Flow<Resource<Boolean>> {
+        d("Firestore", "Attempting to add card: $card")
         return flow {
+            d("Firestore", "Flow is activated")
             emit(Resource.Loading(true))
             try {
                 val cardDataModel = card.toData()
-                db.collection("users").document(uid).collection("cards").add(cardDataModel).await()
+                val docRef = db.collection("cards")
+                val result = docRef.add(cardDataModel).await()
+
+                d("Firestore", "Card added successfully with document ID: ${result.id}")
                 emit(Resource.Success(true))
             } catch (e: Exception) {
+                d("Firestore", "Error adding card: ${e.message}")
                 emit(Resource.Error(errorMessage = e.message.toString()))
+            } finally {
+                emit(Resource.Loading(false))
             }
-            emit(Resource.Loading(false))
         }
     }
 
@@ -48,7 +56,7 @@ class CardRepositoryImpl @Inject constructor(
             emit(Resource.Loading(true))
             try {
                 val getCollection =
-                    db.collection("users").document(uid).collection("cards").get().await()
+                    db.collection("cards").get().await()
                 val cards = getCollection.documents.mapNotNull { documents ->
                     documents.toObject(CardDto::class.java)?.toDomain()
                 }
