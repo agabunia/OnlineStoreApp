@@ -34,6 +34,8 @@ class CardViewPagerAdapter :
         holder.bind()
     }
 
+    var onClickDelete: ((String) -> Unit)? = null
+
     inner class CardViewHolder(private val binding: CardLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private lateinit var card: Card
@@ -44,6 +46,9 @@ class CardViewPagerAdapter :
                 tvCardNumber.text = card.cardNumber.formatCardNumber()
                 tvCardDate.text = card.date
                 ivCardType.loadImageId(getCardTypeImageResource(cardType = card.cardType))
+                btnDelete.setOnClickListener {
+                    onClickDelete?.invoke(card.id)
+                }
             }
         }
 

@@ -60,10 +60,12 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>(FragmentWalletBinding
 
     private fun handleState(state: WalletState) {
         state.allCards?.let {
-            if (it.isEmpty()) {
-                binding.ivEmptyCards.visibility = View.VISIBLE
-            }
-            binding.ivEmptyCards.visibility = View.GONE
+            binding.ivEmptyCards.visibility =
+                if (it.isEmpty()) View.VISIBLE else View.GONE
+
+            binding.tvEmptyCard.visibility =
+                if (it.isEmpty()) View.VISIBLE else View.GONE
+
             cardViewPagerAdapter.submitList(it)
         }
 
@@ -71,6 +73,9 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>(FragmentWalletBinding
             toastMessage(message = it)
             viewModel.onEvent(WalletEvent.ResetErrorMessage)
         }
+
+        binding.progressBar.visibility =
+            if (state.isLoading) View.VISIBLE else View.GONE
     }
 
     private fun setCardViewPagerAdapter() {
@@ -80,6 +85,9 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>(FragmentWalletBinding
         transformer.addTransformer { page, position ->
             val r = 1 - abs(position)
             page.scaleY = 0.85f + r * 0.15f
+        }
+        cardViewPagerAdapter.onClickDelete = {
+            viewModel.onEvent(WalletEvent.DeleteCard(id = it))
         }
         binding.vpCard.apply {
             adapter = cardViewPagerAdapter

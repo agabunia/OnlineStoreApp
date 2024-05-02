@@ -52,4 +52,5 @@
     <string name="card_number">ბარათის ნომერი</string>
     <string name="expiration_date">მოქმედების ვადა</string>
     <string name="cvv">CVV</string>
+    <string name="the_wallet_is_empty">საფულე ცარიელია</string>
 </resources>

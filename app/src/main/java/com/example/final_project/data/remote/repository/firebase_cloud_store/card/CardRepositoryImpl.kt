@@ -17,19 +17,13 @@ class CardRepositoryImpl @Inject constructor(
     private val db: FirebaseFirestore
 ) : CardRepository {
     override suspend fun addCard(uid: String, card: GetCard): Flow<Resource<Boolean>> {
-        d("Firestore", "Attempting to add card: $card")
         return flow {
-            d("Firestore", "Flow is activated")
             emit(Resource.Loading(true))
             try {
                 val cardDataModel = card.toData()
-                val docRef = db.collection("cards")
-                val result = docRef.add(cardDataModel).await()
-
-                d("Firestore", "Card added successfully with document ID: ${result.id}")
+                db.collection("cards").document(cardDataModel.id).set(cardDataModel).await()
                 emit(Resource.Success(true))
             } catch (e: Exception) {
-                d("Firestore", "Error adding card: ${e.message}")
                 emit(Resource.Error(errorMessage = e.message.toString()))
             } finally {
                 emit(Resource.Loading(false))
@@ -41,8 +35,7 @@ class CardRepositoryImpl @Inject constructor(
         return flow {
             emit(Resource.Loading(true))
             try {
-                db.collection("users").document(uid).collection("cards").document(id).delete()
-                    .await()
+                db.collection("cards").document(id).delete().await()
                 emit(Resource.Success(true))
             } catch (e: Exception) {
                 emit(Resource.Error(errorMessage = e.message.toString()))
@@ -57,8 +50,8 @@ class CardRepositoryImpl @Inject constructor(
             try {
                 val getCollection =
                     db.collection("cards").get().await()
-                val cards = getCollection.documents.mapNotNull { documents ->
-                    documents.toObject(CardDto::class.java)?.toDomain()
+                val cards = getCollection.mapNotNull { document ->
+                    document.toObject(CardDto::class.java).toDomain()
                 }
                 emit(Resource.Success(cards))
             } catch (e: Exception) {

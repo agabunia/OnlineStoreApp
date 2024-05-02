@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.final_project.data.common.Resource
 import com.example.final_project.domain.local.usecase.datastore.profile_image.ReadUserUidUseCase
+import com.example.final_project.domain.remote.usecase.wallet.DeleteCardUseCase
 import com.example.final_project.domain.remote.usecase.wallet.GetAllCardsUseCase
 import com.example.final_project.presentation.event.wallet.WalletEvent
 import com.example.final_project.presentation.mapper.wallet.toPresenter
@@ -24,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class WalletViewModel @Inject constructor(
     private val readUserUidUseCase: ReadUserUidUseCase,
-    private val getAllCardsUseCase: GetAllCardsUseCase
+    private val getAllCardsUseCase: GetAllCardsUseCase,
+    private val deleteCardUseCase: DeleteCardUseCase
 ) : ViewModel() {
 
     private val _walletState = MutableStateFlow(WalletState())
@@ -39,6 +41,7 @@ class WalletViewModel @Inject constructor(
             is WalletEvent.NavigateToProfile -> navigateToProfile()
             is WalletEvent.OpenBottomSheetFragment -> openBottomFragment()
             is WalletEvent.ResetErrorMessage -> errorMessage(message = null)
+            is WalletEvent.DeleteCard -> deleteCard(id = event.id)
         }
     }
 
@@ -48,7 +51,6 @@ class WalletViewModel @Inject constructor(
             getAllCardsUseCase(uid).collect {
                 when (it) {
                     is Resource.Success -> {
-                        d("fetchCards", "${it.data}")
                         _walletState.update { currentState ->
                             currentState.copy(allCards = it.data.map { card ->
                                 card.toPresenter()
@@ -57,10 +59,24 @@ class WalletViewModel @Inject constructor(
                     }
 
                     is Resource.Error -> {
-                        d("fetchCards", it.errorMessage)
                         errorMessage(message = it.errorMessage)
                     }
 
+                    is Resource.Loading -> _walletState.update { currentState ->
+                        currentState.copy(isLoading = it.loading)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun deleteCard(id: String) {
+        viewModelScope.launch {
+            val uid = readUserUidUseCase().first()
+            deleteCardUseCase(uid = uid, cardId = id).collect{
+                when(it) {
+                    is Resource.Success -> getAllCards()
+                    is Resource.Error -> errorMessage(message = it.errorMessage)
                     is Resource.Loading -> _walletState.update { currentState ->
                         currentState.copy(isLoading = it.loading)
                     }
