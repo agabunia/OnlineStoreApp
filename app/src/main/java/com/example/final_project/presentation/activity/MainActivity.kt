@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log.d
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.final_project.R
@@ -18,23 +19,26 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navHostFragment: NavHostFragment
+    private lateinit var navController: NavController
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestPermission()
         binding = ActivityMainBinding.inflate(layoutInflater)
+        requestNotificationPermission()
         setContentView(binding.root)
         setNavigation()
         readPushToken()
+        navigateToDetailedPageFromNotification()
     }
 
     private fun setNavigation() {
         with(binding) {
-            val navHostFragment =
+            navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-            val navController = navHostFragment.navController
+            navController = navHostFragment.navController
             bottomNavigation.setupWithNavController(
                 navController
             )
@@ -51,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun requestPermission() {
+    private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requestPermission.launch(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
         }
@@ -70,6 +74,25 @@ class MainActivity : AppCompatActivity() {
             // Log and toast
             d("firebaseToken", token)
         })
+    }
+
+    private fun navigateToDetailedPageFromNotification() {
+        if (intent.extras != null && intent.hasExtra("id")) {
+            val productId = intent.getStringExtra("id")
+
+            if (productId != null) {
+                val bundle = Bundle().apply {
+                    putInt("id", productId.toInt())
+                }
+                navHostFragment =
+                    supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+                navController = navHostFragment.navController
+                navController.navigate(
+                    R.id.productDetailedFragment,
+                    bundle
+                )
+            }
+        }
     }
 
 }
