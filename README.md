@@ -84,7 +84,7 @@ API Used: <br />
 •	https://dummyjson.com/docs/products <br />
 
 ### Visual Representation of some features:
-![alt text](ApplicationUI/LoginScreen.png)
+![alt text](ApplicationUI/LoginScreen.png | width=400)
 ![alt text](ApplicationUI/RegisterScreen.png)
 
 
