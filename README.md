@@ -84,5 +84,5 @@ API Used: <br />
 •	https://dummyjson.com/docs/products <br />
 
 ### Visual Representation of some features:
-![alt text]([https://github.com/agabunia/final-project/blob/master/ApplicationUI/LoginScreen.png?raw=true](https://github.com/agabunia/OnlineStoreApp/blob/main/ApplicationUI/LoginScreen.png))
+![alt text](ApplicationUI/LoginScreen.png)
 
