@@ -20,7 +20,7 @@ OnlineStoreApp features a simple and intuitive user interface, consisting of the
 •	Home: Displays featured products by all categories. <br />
 •	Product Details: Provides detailed information about a selected product. <br />
 •	WishList: Shows the items added to the user's shopping cart and show selected items offline as well. <br />
-•	Profile: Allows users to change profile picture. Have an information about “Terms and Conditions”. Log out From Application. <br />
+•	Profile: Allows users to change profile picture. See existing cards, add or delete in wallet. Have an information about “Terms and Conditions”. Log out From Application. <br />
 
 ### Features:
 Browsing Products: <br />
@@ -34,6 +34,7 @@ Placing Orders: <br />
 •	Payment options include credit/debit cards, PayPal, and other supported methods. <br /> <br />
 User Profile Management: <br />
 •	Users can change profile picture, which will be saved in firebase cloud store. <br /> <br />
+•	Users can add and delete cards inside wallet fragment. The cards are saved in firebase firestore database. <br /> <br />
 Additional Features: <br />
 •	Users can change app theme between light and dark themes, and language between English and Georgian. Users can access those features from Drawer Menu, 
 which can be made from home, search and wishlist pages. <br />
@@ -65,6 +66,7 @@ o	MVI <br />
 •	Dependency Injection using Dagger Hilt <br />
 •	Firebase Authentication <br />
 •	Firebase Cloud Store <br />
+•	Firebase Firestore database <br />
 •	Firebase Push Notifications <br />
 •	Retrofit API integration <br />
 •	Interceptor <br />
@@ -84,8 +86,11 @@ API Used: <br />
 ### Visual Representation of some features:
 ![alt text](https://github.com/agabunia/final-project/blob/master/ApplicationUI/LoginScreen.png?raw=true)
 ![alt text](https://github.com/agabunia/final-project/blob/master/ApplicationUI/RegisterScreen.png?raw=true)
+![alt text](https://github.com/agabunia/final-project/blob/master/ApplicationUI/HomeScreenLight.png?raw=true)
+![alt text](https://github.com/agabunia/final-project/blob/master/ApplicationUI/HomeScreenDark.png?raw=true)
+![alt text](https://github.com/agabunia/final-project/blob/master/ApplicationUI/DrawerScreen.png?raw=true)
 ![alt text](https://github.com/agabunia/final-project/blob/master/ApplicationUI/SearchScreen.png?raw=true)
-![alt text](https://github.com/agabunia/final-project/blob/master/ApplicationUI/HomeScreen.png?raw=true)
-![alt text](https://github.com/agabunia/final-project/blob/master/ApplicationUI/ProductDetailedScreen.png?raw=true)
-![alt text](https://github.com/agabunia/final-project/blob/master/ApplicationUI/EmptyWishlistScreen.pngraw=true)
+![alt text](https://github.com/agabunia/final-project/blob/master/ApplicationUI/ProductDetailedScreen.pngraw=true)
 ![alt text](https://github.com/agabunia/final-project/blob/master/ApplicationUI/WishlistScreen.png?raw=true)
+![alt text](https://github.com/agabunia/final-project/blob/master/ApplicationUI/ProfileScreen.png?raw=true)
+![alt text](https://github.com/agabunia/final-project/blob/master/ApplicationUI/WalletScreen.png?raw=true)
