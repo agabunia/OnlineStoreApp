@@ -85,4 +85,6 @@ API Used: <br />
 
 ### Visual Representation of some features:
 ![alt text](ApplicationUI/LoginScreen.png)
+![alt text](ApplicationUI/RegisterScreen.png)
+
 
