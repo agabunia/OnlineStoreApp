@@ -84,7 +84,15 @@ API Used: <br />
 •	https://dummyjson.com/docs/products <br />
 
 ### Visual Representation of some features:
-![alt text](ApplicationUI/LoginScreen.png | width=400)
-![alt text](ApplicationUI/RegisterScreen.png)
+![Login Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/LoginScreen.png?raw=true)
+![Register Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/RegisterScreen.png?raw=true)
+![Home Screen Light](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/HomeScreenLight.png?raw=true)
+![Home Screen Dark](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/HomeScreenDark.png?raw=true)
+![Drawer Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/DrawerScreen.png?raw=true)
+![Search Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/SearchScreen.png?raw=true)
+![Product Detailed Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/ProductDetailedScreen.png?raw=true)
+![Wishlist Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/WishlistScreen.png?raw=true)
+![Profile Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/ProfileScreen.png?raw=true)
+![Wallet Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/WalletScreen.png?raw=true)
 
 
