@@ -85,14 +85,14 @@ API Used: <br />
 
 ### Visual Representation of some features:
 ![Login Screen](ApplicationUI/LoginScreen.png)
-![Register Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/RegisterScreen.png?raw=true)
-![Home Screen Light](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/HomeScreenLight.png?raw=true)
-![Home Screen Dark](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/HomeScreenDark.png?raw=true)
-![Drawer Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/DrawerScreen.png?raw=true)
-![Search Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/SearchScreen.png?raw=true)
-![Product Detailed Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/ProductDetailedScreen.png?raw=true)
-![Wishlist Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/WishlistScreen.png?raw=true)
-![Profile Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/ProfileScreen.png?raw=true)
-![Wallet Screen](https://github.com/agabunia/OnlineStoreApp/blob/master/ApplicationUI/WalletScreen.png?raw=true)
+![Register Screen](ApplicationUI/RegisterScreen.png)
+![Home Screen Light](ApplicationUI/HomeScreenLight.png)
+![Home Screen Dark](ApplicationUI/HomeScreenDark.png)
+![Drawer Screen](ApplicationUI/DrawerScreen.png)
+![Search Screen](ApplicationUI/SearchScreen.png)
+![Product Detailed Screen](ApplicationUI/ProductDetailedScreen.png)
+![Wishlist Screen](ApplicationUI/WishlistScreen.png)
+![Profile Screen](ApplicationUI/ProfileScreen.png)
+![Wallet Screen](ApplicationUI/WalletScreen.png)
 
 
