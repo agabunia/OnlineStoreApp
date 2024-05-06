@@ -3,9 +3,11 @@ package com.example.final_project.presentation.screen.product
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.final_project.data.common.Resource
+import com.example.final_project.domain.local.usecase.datastore.profile_image.ReadUserUidUseCase
 import com.example.final_project.domain.local.usecase.db_manipulators.InsertProductInLocalUseCase
 import com.example.final_project.domain.remote.usecase.payment.PaymentUseCase
 import com.example.final_project.domain.remote.usecase.product.GetProductDetailedUseCase
+import com.example.final_project.domain.remote.usecase.wallet.GetAllCardsUseCase
 import com.example.final_project.presentation.event.product.ProductEvent
 import com.example.final_project.presentation.mapper.common_product_list.toDomain
 import com.example.final_project.presentation.mapper.product.toDomain
@@ -20,6 +22,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,7 +31,9 @@ import javax.inject.Inject
 class ProductDetailedViewModel @Inject constructor(
     private val getProductDetailedUseCase: GetProductDetailedUseCase,
     private val insertProductInLocalUseCase: InsertProductInLocalUseCase,
-    private val paymentUseCase: PaymentUseCase
+    private val paymentUseCase: PaymentUseCase,
+    private val getAllCardsUseCase: GetAllCardsUseCase,
+    private val readUserUidUseCase: ReadUserUidUseCase,
 ) : ViewModel() {
 
     private val _productState = MutableStateFlow(ProductState())
@@ -84,16 +89,34 @@ class ProductDetailedViewModel @Inject constructor(
     }
 
     private fun buyProduct(amount: Int) {
-        val isSuccessful = paymentUseCase(amount = amount)
-        navigateToPayment(isSuccessful = isSuccessful)
+        viewModelScope.launch {
+            val uid = readUserUidUseCase().first()
+            getAllCardsUseCase(uid).collect {
+                when (it) {
+                    is Resource.Success -> {
+                        if (it.data.isNotEmpty()) {
+                            val isSuccessful = paymentUseCase(amount = amount)
+                            navigateToPayment(isSuccessful = isSuccessful)
+                        } else {
+                            errorMessage(message = "Wallet is empty, add card")
+                        }
+                    }
+
+                    is Resource.Error -> errorMessage(message = "Error with the wallet, try again")
+                    is Resource.Loading -> _productState.update { currentState ->
+                        currentState.copy(isLoading = it.loading)
+                    }
+                }
+            }
+        }
     }
 
     private fun navigateToPayment(isSuccessful: Boolean) {
         viewModelScope.launch {
             if (isSuccessful) {
-                _uiEvent.emit(UIEvent.navigateToPayment(true))
+                _uiEvent.emit(UIEvent.NavigateToPayment(true))
             } else {
-                _uiEvent.emit(UIEvent.navigateToPayment(false))
+                _uiEvent.emit(UIEvent.NavigateToPayment(false))
             }
         }
     }
@@ -129,7 +152,7 @@ class ProductDetailedViewModel @Inject constructor(
     }
 
     sealed interface UIEvent {
-        data class navigateToPayment(val isSuccessful: Boolean) : UIEvent
+        data class NavigateToPayment(val isSuccessful: Boolean) : UIEvent
         object NavigateBack : UIEvent
     }
 

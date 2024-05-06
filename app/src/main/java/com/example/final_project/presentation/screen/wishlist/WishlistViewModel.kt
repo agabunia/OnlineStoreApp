@@ -2,8 +2,10 @@ package com.example.final_project.presentation.screen.wishlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.final_project.data.common.Resource
 import com.example.final_project.domain.local.usecase.datastore.language.ChangeLanguageDataStoreUseCase
 import com.example.final_project.domain.local.usecase.datastore.language.GetLanguageDataStoreUseCase
+import com.example.final_project.domain.local.usecase.datastore.profile_image.ReadUserUidUseCase
 import com.example.final_project.domain.local.usecase.datastore.theme.ChangeThemeDataStoreUseCase
 import com.example.final_project.domain.local.usecase.datastore.theme.GetThemeDataStoreUseCase
 import com.example.final_project.domain.local.usecase.db_manipulators.DecreaseLocalProductQuantityUseCase
@@ -13,6 +15,7 @@ import com.example.final_project.domain.local.usecase.db_manipulators.GetAllLoca
 import com.example.final_project.domain.local.usecase.db_manipulators.GetSumOfAllLocalProductsUseCase
 import com.example.final_project.domain.local.usecase.db_manipulators.IncreaseLocalProductQuantityUseCase
 import com.example.final_project.domain.remote.usecase.payment.PaymentUseCase
+import com.example.final_project.domain.remote.usecase.wallet.GetAllCardsUseCase
 import com.example.final_project.presentation.event.home.HomeEvent
 import com.example.final_project.presentation.event.wishlist.WishlistEvent
 import com.example.final_project.presentation.mapper.wishlist.toDomain
@@ -26,6 +29,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,6 +47,8 @@ class WishlistViewModel @Inject constructor(
     private val getThemeDataStoreUseCase: GetThemeDataStoreUseCase,
     private val changeLanguageDataStoreUseCase: ChangeLanguageDataStoreUseCase,
     private val getLanguageDataStoreUseCase: GetLanguageDataStoreUseCase,
+    private val getAllCardsUseCase: GetAllCardsUseCase,
+    private val readUserUidUseCase: ReadUserUidUseCase
 ) : ViewModel() {
 
     private val _wishlistState = MutableStateFlow(WishlistState())
@@ -125,8 +131,27 @@ class WishlistViewModel @Inject constructor(
     }
 
     private fun buyProduct(amount: Int) {
-        val isSuccessful = paymentUseCase(amount = amount)
-        navigateToPayment(isSuccessful = isSuccessful)
+        viewModelScope.launch {
+            val uid = readUserUidUseCase().first()
+            getAllCardsUseCase(uid).collect {
+                when (it) {
+                    is Resource.Success -> {
+                        if (it.data.isNotEmpty()) {
+                            val isSuccessful = paymentUseCase(amount = amount)
+                            navigateToPayment(isSuccessful = isSuccessful)
+                        } else {
+                            errorMessage(message = "Wallet is empty, add card")
+                        }
+                    }
+
+                    is Resource.Error -> errorMessage(message = "Error with the wallet, try again")
+                    is Resource.Loading -> _wishlistState.update { currentState ->
+                        currentState.copy(isLoading = it.loading)
+                    }
+                }
+            }
+        }
+
     }
 
     private fun setLightTheme(isLight: Boolean) {

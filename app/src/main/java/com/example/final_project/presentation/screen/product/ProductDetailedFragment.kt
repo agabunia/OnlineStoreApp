@@ -132,7 +132,7 @@ class ProductDetailedFragment :
 
     private fun handleUiEvent(event: ProductDetailedViewModel.UIEvent) {
         when (event) {
-            is ProductDetailedViewModel.UIEvent.navigateToPayment -> navigateToPayment(event.isSuccessful)
+            is ProductDetailedViewModel.UIEvent.NavigateToPayment -> navigateToPayment(event.isSuccessful)
             is ProductDetailedViewModel.UIEvent.NavigateBack -> goBack()
         }
     }

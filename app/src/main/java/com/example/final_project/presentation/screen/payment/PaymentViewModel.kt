@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PaymentViewModel @Inject constructor(
-    private val deleteAllLocalProductsUseCase: DeleteAllLocalProductsUseCase,
+    private val deleteAllLocalProductsUseCase: DeleteAllLocalProductsUseCase
 ) : ViewModel() {
 
     private val _paymentState = MutableStateFlow(PaymentState())
