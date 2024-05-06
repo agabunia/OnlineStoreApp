@@ -84,15 +84,17 @@ API Used: <br />
 •	https://dummyjson.com/docs/products <br />
 
 ### Visual Representation of some features:
-![Login Screen](ApplicationUI/LoginScreen.png)
-![Register Screen](ApplicationUI/RegisterScreen.png)
-![Home Screen Light](ApplicationUI/HomeScreenLight.png)
-![Home Screen Dark](ApplicationUI/HomeScreenDark.png)
-![Drawer Screen](ApplicationUI/DrawerScreen.png)
-![Search Screen](ApplicationUI/SearchScreen.png)
-![Product Detailed Screen](ApplicationUI/ProductDetailedScreen.png)
-![Wishlist Screen](ApplicationUI/WishlistScreen.png)
-![Profile Screen](ApplicationUI/ProfileScreen.png)
-![Wallet Screen](ApplicationUI/WalletScreen.png)
+![Splash Screen](ApplicationUI/SplashScreen.png)
+![Login Screen](ApplicationUI/LoginScreen.PNG)
+![Register Screen](ApplicationUI/ResgiterScreen.PNG)
+![Home Screen Light](ApplicationUI/HomeScreenLight.PNG)
+![Home Screen Dark](ApplicationUI/HomeScreenDark.PNG)
+![Drawer Screen](ApplicationUI/DrawerScreen.PNG)
+![Search Screen](ApplicationUI/SearchScreen.PNG)
+![Product Detailed Screen](ApplicationUI/ProductDetailedScreen.PNG)
+![Wishlist Screen](ApplicationUI/WishlistScreen.PNG)
+![Payment Screen](ApplicationUI/PaymentScreen.PNG)
+![Profile Screen](ApplicationUI/ProfileScreen.PNG)
+![Wallet Screen](ApplicationUI/WalletScreen.PNG)
 
 
