@@ -126,6 +126,11 @@ class WishlistFragment : BaseFragment<FragmentWishlistBinding>(FragmentWishlistB
             viewModel.onEvent(WishlistEvent.ResetErrorMessage)
         }
 
+        state.errorMessageId?.let {
+            toastMessage(getString(it))
+            viewModel.onEvent(WishlistEvent.ResetErrorMessage)
+        }
+
         state.productsTotalSum?.let {
             val buttonText = "${resources.getText(R.string.buy_now_price)} $it"
             binding.btnBuyNow.text = buttonText

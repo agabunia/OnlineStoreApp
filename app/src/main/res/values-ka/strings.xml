@@ -53,4 +53,6 @@
     <string name="expiration_date">მოქმედების ვადა</string>
     <string name="cvv">CVV</string>
     <string name="the_wallet_is_empty">საფულე ცარიელია</string>
+    <string name="the_wallet_is_empty_add_card">საფულე ცარიელია, დაამატეთ ბარათი</string>
+    <string name="error_with_the_wallet_try_again">ხარვეზია საფულესთან, სცადეთ ხელახლა</string>
 </resources>

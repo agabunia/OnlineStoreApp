@@ -52,4 +52,6 @@
     <string name="expiration_date">Expiration Date</string>
     <string name="cvv">CVV</string>
     <string name="the_wallet_is_empty">The Wallet is empty</string>
+    <string name="the_wallet_is_empty_add_card">Wallet is empty, add card</string>
+    <string name="error_with_the_wallet_try_again">Error with the wallet, try again</string>
 </resources>

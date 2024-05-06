@@ -2,6 +2,7 @@ package com.example.final_project.presentation.screen.wishlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.final_project.R
 import com.example.final_project.data.common.Resource
 import com.example.final_project.domain.local.usecase.datastore.language.ChangeLanguageDataStoreUseCase
 import com.example.final_project.domain.local.usecase.datastore.language.GetLanguageDataStoreUseCase
@@ -67,7 +68,11 @@ class WishlistViewModel @Inject constructor(
             is WishlistEvent.DeleteItem -> deleteProduct(product = event.product)
             is WishlistEvent.IncreaseItemQuantity -> increaseQuantity(id = event.id)
             is WishlistEvent.DecreaseItemQuantity -> decreaseQuantity(id = event.id)
-            is WishlistEvent.ResetErrorMessage -> errorMessage(message = null)
+            is WishlistEvent.ResetErrorMessage -> {
+                errorMessage(message = null)
+                errorMessageId(messageId = null)
+            }
+
             is WishlistEvent.BuyProduct -> buyProduct(amount = event.amount)
             is WishlistEvent.ChangeTheme -> setLightTheme(isLight = event.isLight)
             is WishlistEvent.ChangeLanguage -> changeLanguage(isGeorgian = event.isGeorgian)
@@ -130,6 +135,10 @@ class WishlistViewModel @Inject constructor(
         _wishlistState.update { currentState -> currentState.copy(errorMessage = message) }
     }
 
+    private fun errorMessageId(messageId: Int?) {
+        _wishlistState.update { currentState -> currentState.copy(errorMessageId = messageId) }
+    }
+
     private fun buyProduct(amount: Int) {
         viewModelScope.launch {
             val uid = readUserUidUseCase().first()
@@ -140,11 +149,11 @@ class WishlistViewModel @Inject constructor(
                             val isSuccessful = paymentUseCase(amount = amount)
                             navigateToPayment(isSuccessful = isSuccessful)
                         } else {
-                            errorMessage(message = "Wallet is empty, add card")
+                            errorMessageId(messageId = R.string.the_wallet_is_empty_add_card)
                         }
                     }
 
-                    is Resource.Error -> errorMessage(message = "Error with the wallet, try again")
+                    is Resource.Error -> errorMessageId(messageId = R.string.error_with_the_wallet_try_again)
                     is Resource.Loading -> _wishlistState.update { currentState ->
                         currentState.copy(isLoading = it.loading)
                     }

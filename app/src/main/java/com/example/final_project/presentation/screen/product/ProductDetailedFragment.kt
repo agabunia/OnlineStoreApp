@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.example.final_project.R
 import com.example.final_project.databinding.FragmentProductDetailedBinding
 import com.example.final_project.presentation.activity.MainActivity
 import com.example.final_project.presentation.adapter.product.ImageSlideViewPagerAdapter
@@ -85,6 +86,11 @@ class ProductDetailedFragment :
 
         state.errorMessage?.let {
             toastMessage(it)
+            viewModel.onEvent(ProductEvent.ResetErrorMessage)
+        }
+
+        state.errorMessageId?.let {
+            toastMessage(getString(it))
             viewModel.onEvent(ProductEvent.ResetErrorMessage)
         }
 

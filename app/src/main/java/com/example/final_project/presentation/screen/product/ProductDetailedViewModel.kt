@@ -2,6 +2,7 @@ package com.example.final_project.presentation.screen.product
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.final_project.R
 import com.example.final_project.data.common.Resource
 import com.example.final_project.domain.local.usecase.datastore.profile_image.ReadUserUidUseCase
 import com.example.final_project.domain.local.usecase.db_manipulators.InsertProductInLocalUseCase
@@ -9,13 +10,9 @@ import com.example.final_project.domain.remote.usecase.payment.PaymentUseCase
 import com.example.final_project.domain.remote.usecase.product.GetProductDetailedUseCase
 import com.example.final_project.domain.remote.usecase.wallet.GetAllCardsUseCase
 import com.example.final_project.presentation.event.product.ProductEvent
-import com.example.final_project.presentation.mapper.common_product_list.toDomain
 import com.example.final_project.presentation.mapper.product.toDomain
 import com.example.final_project.presentation.mapper.product.toPresenter
-import com.example.final_project.presentation.model.common_product_list.Products
 import com.example.final_project.presentation.model.product.ProductDetailed
-import com.example.final_project.presentation.screen.login.LoginViewModel
-import com.example.final_project.presentation.screen.payment.PaymentViewModel
 import com.example.final_project.presentation.state.product.ProductState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -33,7 +30,7 @@ class ProductDetailedViewModel @Inject constructor(
     private val insertProductInLocalUseCase: InsertProductInLocalUseCase,
     private val paymentUseCase: PaymentUseCase,
     private val getAllCardsUseCase: GetAllCardsUseCase,
-    private val readUserUidUseCase: ReadUserUidUseCase,
+    private val readUserUidUseCase: ReadUserUidUseCase
 ) : ViewModel() {
 
     private val _productState = MutableStateFlow(ProductState())
@@ -45,7 +42,11 @@ class ProductDetailedViewModel @Inject constructor(
     fun onEvent(event: ProductEvent) {
         when (event) {
             is ProductEvent.FetchProductDetailed -> fetchProductDetailed(id = event.id)
-            is ProductEvent.ResetErrorMessage -> errorMessage(message = null)
+            is ProductEvent.ResetErrorMessage -> {
+                errorMessage(message = null)
+                errorMessageId(messageId = null)
+            }
+
             is ProductEvent.SaveProduct -> saveProductInDatabase(product = event.product)
             is ProductEvent.BuyProduct -> buyProduct(amount = event.amount)
             is ProductEvent.NavigateBack -> navigateBack()
@@ -98,11 +99,11 @@ class ProductDetailedViewModel @Inject constructor(
                             val isSuccessful = paymentUseCase(amount = amount)
                             navigateToPayment(isSuccessful = isSuccessful)
                         } else {
-                            errorMessage(message = "Wallet is empty, add card")
+                            errorMessageId(messageId = R.string.the_wallet_is_empty_add_card)
                         }
                     }
 
-                    is Resource.Error -> errorMessage(message = "Error with the wallet, try again")
+                    is Resource.Error -> errorMessageId(messageId = R.string.error_with_the_wallet_try_again)
                     is Resource.Loading -> _productState.update { currentState ->
                         currentState.copy(isLoading = it.loading)
                     }
@@ -129,6 +130,10 @@ class ProductDetailedViewModel @Inject constructor(
 
     private fun errorMessage(message: String?) {
         _productState.update { currentState -> currentState.copy(errorMessage = message) }
+    }
+
+    private fun errorMessageId(messageId: Int?) {
+        _productState.update { currentState -> currentState.copy(errorMessageId = messageId) }
     }
 
     private fun increaseQuantity(quantity: Int, stock: Int) {
