@@ -84,7 +84,6 @@ API Used: <br />
 •	https://dummyjson.com/docs/products <br />
 
 ### Visual Representation of some features:
-![Splash Screen](ApplicationUI/SplashScreen.png)
 ![Login Screen](ApplicationUI/LoginScreen.PNG)
 ![Register Screen](ApplicationUI/ResgiterScreen.PNG)
 ![Home Screen Light](ApplicationUI/HomeScreenLight.PNG)
